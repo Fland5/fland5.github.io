@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://www.fland5.com/images/aliJavaDevBook1.5.0.png">
 <meta property="og:image" content="http://www.fland5.com/images/dataBaseDataLength.png">
 <meta property="og:image" content="http://www.fland5.com/images/applyHierarchy.png">
-<meta property="og:updated_time" content="2019-08-01T07:46:09.000Z">
+<meta property="og:updated_time" content="2020-01-15T14:48:16.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="阿里Java开发手册(华山版)-读书笔记">
 <meta name="twitter:description" content="最近通过同事分享，利用空隙时间看完了《阿里Java开发手册1.5.0》，简单谈下个人感受，”一本好书！面广点细，规约实效。“。着重谈下个人感受，”如果每个程序员的代码都能够去符合一个更高质量的标准，那么我们代码的维护与扩展将变得更加高效且快乐！感谢阿里给我们带来了这样的一个标准！“。为加深印象，摘抄、提炼如下。  【强制】POJO 类中布尔类型变量都不要加 is 前缀，否则部分框架解析会引起序">
@@ -417,7 +417,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-01 15:46:09" itemprop="dateModified" datetime="2019-08-01T15:46:09+08:00">2019-08-01</time>
+                <time title="修改时间：2020-01-15 22:48:16" itemprop="dateModified" datetime="2020-01-15T22:48:16+08:00">2020-01-15</time>
               
             
           </span>
@@ -473,7 +473,7 @@
 <ol>
 <li>【强制】POJO 类中布尔类型变量都不要加 is 前缀，否则部分框架解析会引起序列化错误。<br>说明：在本文 MySQL 规约中的建表约定第一条，表达是与否的值采用 is_xxx 的命名方式，所以，需要在<br><resultmap>设置从 is_xxx 到 xxx 的映射关系。<br>反例：定义为基本数据类型 Boolean isDeleted 的属性，它的方法也是 isDeleted()，RPC 框架在反向解<br>析的时候，“误以为”对应的属性名称是 deleted，导致属性获取不到，进而抛出异常。</resultmap></li>
 <li>【推荐】接口类中的方法和属性不要加任何修饰符号（public 也不要加），保持代码的简洁<br>性，并加上有效的 Javadoc 注释。尽量不要在接口里定义变量，如果一定要定义变量，肯定<br>是与接口方法相关，并且是整个应用的基础常量。<br>正例：接口方法签名 void commit();<br>接口基础常量 String COMPANY = “alibaba”;<br>反例：接口方法定义 public abstract void f();<br>说明：JDK8 中接口允许有默认实现，那么这个 default 方法，是对所有实现类都有价值的默认实现。</li>
-<li>【参考】各层命名规约：<br>A) Service/DAO 层方法命名规约<br>1） 获取单个对象的方法用 get 做前缀。<br>2） 获取多个对象的方法用 list 做前缀，复数形式结尾如：listObjects。 3） 获取统计值的方法用 count 做前缀。 4） 插入的方法用 save/insert 做前缀。<br>5） 删除的方法用 remove/delete 做前缀。<br>6） 修改的方法用 update 做前缀。<br>B) 领域模型命名规约<br>1） 数据对象：xxxDO，xxx 即为数据表名。<br>2） 数据传输对象：xxxDTO，xxx 为业务领域相关的名称。<br>3） 展示对象：xxxVO，xxx 一般为网页名称。<br>4） POJO 是 DO/DTO/BO/VO 的统称，禁止命名成 xxxPOJO。</li>
+<li>【参考】各层命名规约：<br>A) Service/DAO 层方法命名规约<br>1） 获取单个对象的方法用 get 做前缀。<br>2） 获取多个对象的方法用 list 做前缀，复数形式结尾如：listObjects。 3） 获取统计值的方法用 count 做前缀。 4） 插入的方法用 save/insert 做前缀。<br>5） 删除的方法用 remove/delete 做前缀。<br>6） 修改的方法用 update 做前缀。<br>B) 分层领域模型规约：<br>1） DO（ Data Object）：与数据库表结构一一对应，通过DAO层向上传输数据源对象。<br>2） DTO（ Data Transfer Object）：数据传输对象，Service或Manager向外传输的对象。<br>3） BO（ Business Object）：业务对象。由Service层输出的封装业务逻辑的对象。<br>4） AO（ Application Object）：应用对象。 在Web层与Service层之间抽象的复用对象模型，极为贴近展示层，复用度不高。<br>5) VO（ View Object）：显示层对象，通常是Web向模板渲染引擎层传输的对象。<br>6) POJO（ Plain Ordinary Java Object）：在本手册中， POJO专指只有setter/getter/toString的简单类，包括DO/DTO/BO/VO等。<br>7) Query：数据查询对象，各层接收上层的查询请求。 注意超过2个参数的查询封装，禁止使用Map类来传输。<br>C) 领域模型命名规约：<br>数据对象：xxxDO，xxx即为数据表名。<br>数据传输对象：xxxDTO，xxx为业务领域相关的名称。<br>展示对象：xxxVO，xxx一般为网页名称。<br>POJO是DO/DTO/BO/VO的统称，禁止命名成xxxPOJO。</li>
 <li>【强制】在 long 或者 Long 赋值时，数值后使用大写的 L，不能是小写的 l，小写容易跟数<br>字 1 混淆，造成误解。<br>说明：Long a = 2l; 写的是数字的 21，还是 Long 型的 2。</li>
 <li>【强制】采用 4 个空格缩进，禁止使用 tab 字符。<br>说明：如果使用 tab 缩进，必须设置 1 个 tab 为 4 个空格。IDEA 设置 tab 为 4 个空格时，请勿勾选 Use<br>tab character；而在 eclipse 中，必须勾选 insert spaces for tabs。<br>正例： （涉及 1-5 点）<br>public static void main(String[] args) {<br>// 缩进 4 个空格<br>String say = “hello”;<br>// 运算符的左右必须有一个空格<br>int flag = 0;<br>// 关键词 if 与括号之间必须有一个空格，括号内的 f 与左括号，0 与右括号不需要空格<br>if (flag == 0) {<br>System.out.println(say);<br>}<br>// 左大括号前加空格且不换行；左大括号后换行<br>if (flag == 1) {<br>System.out.println(“world”);<br>// 右大括号前换行，右大括号后有 else，不用换行<br>} else {<br>System.out.println(“ok”);<br>// 在右大括号后直接结束，则必须换行<br>}<br>}</li>
 <li>【强制】注释的双斜线与注释内容之间有且仅有一个空格。<br>正例：<br>// 这是示例注释，请注意在双斜线之后有一个空格<br>String param = new String();</li>

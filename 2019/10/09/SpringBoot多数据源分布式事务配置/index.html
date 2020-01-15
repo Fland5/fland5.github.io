@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN,en,default">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon48.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/favicon48.png?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="先回顾下几个概念  什么是事务？简单讲事务就是一组不可再分割的工作逻辑单元，具有ACID四个特性。 什么是分布式事务？百度百科的解释：分布式事务是指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。 什么是XA？XA是一个规范或是一个事务的协议.XA协议由Tuxedo首先提出的，并交给X/Open组织，作为资源管理器（数据库）与事务管理器的接口标准.">
+<meta name="keywords" content="SpringBoot,多数据源,分布式事务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot多数据源分布式事务配置">
+<meta property="og:url" content="http://www.fland5.com/2019/10/09/SpringBoot多数据源分布式事务配置/index.html">
+<meta property="og:site_name" content="Fland&#39;s blog">
+<meta property="og:description" content="先回顾下几个概念  什么是事务？简单讲事务就是一组不可再分割的工作逻辑单元，具有ACID四个特性。 什么是分布式事务？百度百科的解释：分布式事务是指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。 什么是XA？XA是一个规范或是一个事务的协议.XA协议由Tuxedo首先提出的，并交给X/Open组织，作为资源管理器（数据库）与事务管理器的接口标准.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.fland5.com/images/atomikos.png">
+<meta property="og:updated_time" content="2019-10-10T07:36:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot多数据源分布式事务配置">
+<meta name="twitter:description" content="先回顾下几个概念  什么是事务？简单讲事务就是一组不可再分割的工作逻辑单元，具有ACID四个特性。 什么是分布式事务？百度百科的解释：分布式事务是指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。 什么是XA？XA是一个规范或是一个事务的协议.XA协议由Tuxedo首先提出的，并交给X/Open组织，作为资源管理器（数据库）与事务管理器的接口标准.">
+<meta name="twitter:image" content="http://www.fland5.com/images/atomikos.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://www.fland5.com/2019/10/09/SpringBoot多数据源分布式事务配置/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SpringBoot多数据源分布式事务配置 | Fland's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fland's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">welcome</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+
+  
+
+  <a href="https://github.com/fland5" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.fland5.com/2019/10/09/SpringBoot多数据源分布式事务配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fland.Ho">
+      <meta itemprop="description" content="target.">
+      <meta itemprop="image" content="/images/p.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fland's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringBoot多数据源分布式事务配置
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-09 19:00:05" itemprop="dateCreated datePublished" datetime="2019-10-09T19:00:05+08:00">2019-10-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-10 15:36:05" itemprop="dateModified" datetime="2019-10-10T15:36:05+08:00">2019-10-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>先回顾下几个概念</p>
+<ol>
+<li>什么是事务？<br>简单讲事务就是一组不可再分割的工作逻辑单元，具有ACID四个特性。</li>
+<li>什么是分布式事务？<br>百度百科的解释：分布式事务是指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。</li>
+<li>什么是XA？<br>XA是一个规范或是一个事务的协议.XA协议由Tuxedo首先提出的，并交给X/Open组织，作为资源管理器（数据库）与事务管理器的接口标准.<br> XA规范定义了:<ol>
+<li>TransactionManager : 这个TransactionManager可以通过管理多个ResourceManager来管理多个Resouce,也就是管理多个数据源</li>
+<li>XAResource : 针对数据资源封装的一个接口</li>
+<li>两段式提交 : 多数据源事务提交的机制</li>
+</ol>
+</li>
+<li>什么是JTA？<br>JTA(Java Transaction API) : 是XA在Java上的实现。<ol>
+<li>TransactionManager : 常用方法,可以开启,回滚,获取事务. begin(),rollback()…</li>
+<li>XAResouce : 资源管理,通过Session来进行事务管理,commit(xid)…</li>
+<li>XID : 每一个事务都分配一个特定的XID</li>
+</ol>
+</li>
+<li>JTA是如何实现多数据源的事务管理呢?<br>主要的原理是两阶段提交,当整个业务完成了之后只是第一阶段提交,在第二阶段提交之前会检查其他所有事务是否已经提交,如果前面出现了错误或是没有提交,那么第二阶段就不会提交,而是直接rollback操作,这样所有的事务都会做Rollback操作.</li>
+</ol>
+<p>　　言归正传，事务的重要性，自是不言而喻，较之单数据源，多数据源下的事务处理又更为复杂一些，现利用JTA的解决方案，在SpringBoot框架基础之上，将多数据源分布式事务配置详细过程记录如下。</p>
+<ol>
+<li>添加依赖<br>pom中添加atomikos依赖包。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--atomikos transaction management--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-jta-atomikos&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><img src="/images/atomikos.png" alt="atomikos依赖包详情"><br>第一个包有冲突，检查了下，没有什么影响，先不管。</p>
+<ol start="2">
+<li><p>application.yml配置<br>笔者两个有两个数据源，命名为master的MySQL数据源，命名为slave的Oracle数据源。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    type: com.alibaba.druid.pool.xa.DruidXADataSource</span><br><span class="line">    druid:</span><br><span class="line">      master:</span><br><span class="line">        name: master</span><br><span class="line">        driverClassName: com.mysql.cj.jdbc.Driver</span><br><span class="line">        url: jdbc:mysql://x.x.x.x:3306/xxxx</span><br><span class="line">        username: root</span><br><span class="line">        password: test</span><br><span class="line">        # 下面为连接池的补充设置，应用到上面所有数据源中</span><br><span class="line">        initialSize: 5</span><br><span class="line">        minIdle: 5</span><br><span class="line">        maxIdle: 10</span><br><span class="line">        maxActive: 30</span><br><span class="line">        # 是否在自动回收超时连接的时候打印连接的超时错误</span><br><span class="line">        logAbandoned: true</span><br><span class="line">        # 是否自动回收超时连接</span><br><span class="line">        removeAbandoned: false</span><br><span class="line">        # 配置获取连接等待超时的时间</span><br><span class="line">        maxWait: 60000</span><br><span class="line">        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒</span><br><span class="line">        timeBetweenEvictionRunsMillis: 60000</span><br><span class="line">        # 配置一个连接在池中最小生存的时间，单位是毫秒</span><br><span class="line">        minEvictableIdleTimeMillis: 30000</span><br><span class="line">        validationQuery: select 1 from dual</span><br><span class="line">        validationQueryTimeout: 10000</span><br><span class="line">        testWhileIdle: true</span><br><span class="line">        testOnBorrow: false</span><br><span class="line">        testOnReturn: false</span><br><span class="line">        # 打开PSCache，并且指定每个连接上PSCache的大小</span><br><span class="line">        poolPreparedStatements: true</span><br><span class="line">        maxPoolPreparedStatementPerConnectionSize: 20</span><br><span class="line">        filters: stat,wall</span><br><span class="line">        # 通过connectProperties属性来打开mergeSql功能；慢SQL记录</span><br><span class="line">        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000</span><br><span class="line">        # 合并多个DruidDataSource的监控数据</span><br><span class="line">        useGlobalDataSourceStat: true</span><br><span class="line">      slave:</span><br><span class="line">        name: slave</span><br><span class="line">        driverClassName: oracle.jdbc.OracleDriver</span><br><span class="line">        url: jdbc:oracle:thin:@x.x.x.x:1521/xxxx</span><br><span class="line">        username: root</span><br><span class="line">        password: test</span><br><span class="line">        # 下面为连接池的补充设置，应用到上面所有数据源中</span><br><span class="line">        initialSize: 5</span><br><span class="line">        minIdle: 5</span><br><span class="line">        maxIdle: 10</span><br><span class="line">        maxActive: 30</span><br><span class="line">        # 是否在自动回收超时连接的时候打印连接的超时错误</span><br><span class="line">        logAbandoned: true</span><br><span class="line">        # 是否自动回收超时连接</span><br><span class="line">        removeAbandoned: false</span><br><span class="line">        # 配置获取连接等待超时的时间</span><br><span class="line">        maxWait: 60000</span><br><span class="line">        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒</span><br><span class="line">        timeBetweenEvictionRunsMillis: 60000</span><br><span class="line">        # 配置一个连接在池中最小生存的时间，单位是毫秒</span><br><span class="line">        minEvictableIdleTimeMillis: 30000</span><br><span class="line">        validationQuery: select 1 from dual</span><br><span class="line">        validationQueryTimeout: 10000</span><br><span class="line">        testWhileIdle: true</span><br><span class="line">        testOnBorrow: false</span><br><span class="line">        testOnReturn: false</span><br><span class="line">        # 打开PSCache，并且指定每个连接上PSCache的大小</span><br><span class="line">        poolPreparedStatements: true</span><br><span class="line">        maxPoolPreparedStatementPerConnectionSize: 20</span><br><span class="line">        filters: stat,wall</span><br><span class="line">        # 通过connectProperties属性来打开mergeSql功能；慢SQL记录</span><br><span class="line">        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000</span><br><span class="line">        # 合并多个DruidDataSource的监控数据</span><br><span class="line">        useGlobalDataSourceStat: true</span><br><span class="line">  jta:</span><br><span class="line">    log-dir: classpath:tx-logs</span><br><span class="line">    transaction-manager-id: txManager</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Druid配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><span class="line">import com.alibaba.druid.filter.stat.StatFilter;</span><br><span class="line">import com.alibaba.druid.support.http.StatViewServlet;</span><br><span class="line">import com.alibaba.druid.support.http.WebStatFilter;</span><br><span class="line">import com.alibaba.druid.wall.WallConfig;</span><br><span class="line">import com.alibaba.druid.wall.WallFilter;</span><br><span class="line">import com.atomikos.icatch.jta.UserTransactionImp;</span><br><span class="line">import com.atomikos.icatch.jta.UserTransactionManager;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;</span><br><span class="line">import org.springframework.boot.web.servlet.FilterRegistrationBean;</span><br><span class="line">import org.springframework.boot.web.servlet.ServletRegistrationBean;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.context.annotation.Primary;</span><br><span class="line">import org.springframework.core.env.Environment;</span><br><span class="line">import org.springframework.transaction.jta.JtaTransactionManager;</span><br><span class="line"></span><br><span class="line">import javax.sql.DataSource;</span><br><span class="line">import javax.transaction.UserTransaction;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Druid配置</span><br><span class="line"> */</span><br><span class="line">@Configuration</span><br><span class="line">public class DruidConfig &#123;</span><br><span class="line"></span><br><span class="line">    @Primary</span><br><span class="line">    @Bean(name = &quot;master&quot;)</span><br><span class="line">    @Autowired</span><br><span class="line">    public DataSource masterDataSource(Environment env) &#123;</span><br><span class="line">        AtomikosDataSourceBean adsb = new AtomikosDataSourceBean();</span><br><span class="line">        Properties prop = build(env, &quot;spring.datasource.druid.master.&quot;);</span><br><span class="line">        adsb.setXaDataSourceClassName(&quot;com.alibaba.druid.pool.xa.DruidXADataSource&quot;);</span><br><span class="line">        adsb.setUniqueResourceName(&quot;master&quot;);</span><br><span class="line">        adsb.setPoolSize(5);</span><br><span class="line">        adsb.setXaProperties(prop);</span><br><span class="line">        return adsb;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;slave&quot;)</span><br><span class="line">    @Autowired</span><br><span class="line">    public AtomikosDataSourceBean slaveDataSource(Environment env) &#123;</span><br><span class="line">        AtomikosDataSourceBean adsb = new AtomikosDataSourceBean();</span><br><span class="line">        Properties prop = build(env, &quot;spring.datasource.druid.slave.&quot;);</span><br><span class="line">        adsb.setXaDataSourceClassName(&quot;com.alibaba.druid.pool.xa.DruidXADataSource&quot;);</span><br><span class="line">        adsb.setUniqueResourceName(&quot;slave&quot;);</span><br><span class="line">        adsb.setPoolSize(5);</span><br><span class="line">        adsb.setXaProperties(prop);</span><br><span class="line">        return adsb;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 注入事物管理器</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Bean(name = &quot;dta&quot;)</span><br><span class="line">    public JtaTransactionManager regTransactionManager() &#123;</span><br><span class="line">        UserTransactionManager userTransactionManager = new UserTransactionManager();</span><br><span class="line">        UserTransaction userTransaction = new UserTransactionImp();</span><br><span class="line">        return new JtaTransactionManager(userTransaction, userTransactionManager);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private Properties build(Environment env, String prefix) &#123;</span><br><span class="line"></span><br><span class="line">        Properties prop = new Properties();</span><br><span class="line">        prop.put(&quot;url&quot;, env.getProperty(prefix + &quot;url&quot;));</span><br><span class="line">        prop.put(&quot;username&quot;, env.getProperty(prefix + &quot;username&quot;));</span><br><span class="line">        prop.put(&quot;password&quot;, env.getProperty(prefix + &quot;password&quot;));</span><br><span class="line">        prop.put(&quot;driverClassName&quot;, env.getProperty(prefix + &quot;driverClassName&quot;, &quot;&quot;));</span><br><span class="line">        prop.put(&quot;initialSize&quot;, env.getProperty(prefix + &quot;initialSize&quot;, Integer.class));</span><br><span class="line">        prop.put(&quot;maxActive&quot;, env.getProperty(prefix + &quot;maxActive&quot;, Integer.class));</span><br><span class="line">        prop.put(&quot;minIdle&quot;, env.getProperty(prefix + &quot;minIdle&quot;, Integer.class));</span><br><span class="line">        prop.put(&quot;maxWait&quot;, env.getProperty(prefix + &quot;maxWait&quot;, Integer.class));</span><br><span class="line">        prop.put(&quot;timeBetweenEvictionRunsMillis&quot;,</span><br><span class="line">                env.getProperty(prefix + &quot;timeBetweenEvictionRunsMillis&quot;, Integer.class));</span><br><span class="line">        prop.put(&quot;minEvictableIdleTimeMillis&quot;, env.getProperty(prefix + &quot;minEvictableIdleTimeMillis&quot;, Integer.class));</span><br><span class="line">        prop.put(&quot;validationQuery&quot;, env.getProperty(prefix + &quot;validationQuery&quot;));</span><br><span class="line">        prop.put(&quot;validationQueryTimeout&quot;, env.getProperty(prefix + &quot;validationQueryTimeout&quot;, Integer.class));</span><br><span class="line">        prop.put(&quot;testWhileIdle&quot;, env.getProperty(prefix + &quot;testWhileIdle&quot;, Boolean.class));</span><br><span class="line">        prop.put(&quot;testOnBorrow&quot;, env.getProperty(prefix + &quot;testOnBorrow&quot;, Boolean.class));</span><br><span class="line">        prop.put(&quot;testOnReturn&quot;, env.getProperty(prefix + &quot;testOnReturn&quot;, Boolean.class));</span><br><span class="line">        prop.put(&quot;poolPreparedStatements&quot;, env.getProperty(prefix + &quot;poolPreparedStatements&quot;, Boolean.class));</span><br><span class="line">        prop.put(&quot;maxPoolPreparedStatementPerConnectionSize&quot;,</span><br><span class="line">                env.getProperty(prefix + &quot;maxPoolPreparedStatementPerConnectionSize&quot;, Integer.class));</span><br><span class="line">        prop.put(&quot;filters&quot;, env.getProperty(prefix + &quot;filters&quot;));</span><br><span class="line">        return prop;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //1、配置一个管理后台的Servlet</span><br><span class="line">    @Bean</span><br><span class="line">    public ServletRegistrationBean statViewServlet() &#123;</span><br><span class="line">        ServletRegistrationBean bean = new ServletRegistrationBean(new StatViewServlet(), &quot;/druid/*&quot;);</span><br><span class="line">        Map&lt;String, String&gt; initParams = new HashMap&lt;&gt;();</span><br><span class="line">        initParams.put(&quot;loginUsername&quot;, &quot;admin&quot;);</span><br><span class="line">        initParams.put(&quot;loginPassword&quot;, &quot;admin&quot;);</span><br><span class="line">        initParams.put(&quot;allow&quot;, &quot;&quot;);//默认就是允许所有访问</span><br><span class="line">        //initParams.put(&quot;deny&quot;,&quot;x.x.x.x&quot;);//黑名单的IP</span><br><span class="line">        bean.setInitParameters(initParams);</span><br><span class="line">        return bean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //2、配置一个web监控的filter</span><br><span class="line">    @Bean</span><br><span class="line">    public FilterRegistrationBean webStatFilter() &#123;</span><br><span class="line">        FilterRegistrationBean bean = new FilterRegistrationBean();</span><br><span class="line">        bean.setFilter(new WebStatFilter());</span><br><span class="line"></span><br><span class="line">        Map&lt;String, String&gt; initParams = new HashMap&lt;&gt;();</span><br><span class="line">        initParams.put(&quot;exclusions&quot;, &quot;*.js,*.css,/druid/*&quot;);</span><br><span class="line"></span><br><span class="line">        bean.setInitParameters(initParams);</span><br><span class="line"></span><br><span class="line">        bean.setUrlPatterns(Arrays.asList(&quot;/*&quot;));</span><br><span class="line"></span><br><span class="line">        return bean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public StatFilter statFilter() &#123;</span><br><span class="line">        StatFilter statFilter = new StatFilter();</span><br><span class="line">        //slowSqlMillis用来配置SQL慢的标准，执行时间超过slowSqlMillis的就是慢。</span><br><span class="line">        statFilter.setLogSlowSql(true);</span><br><span class="line">        //SQL合并配置</span><br><span class="line">        statFilter.setMergeSql(true);</span><br><span class="line">        //slowSqlMillis的缺省值为3000，也就是3秒。</span><br><span class="line">        statFilter.setSlowSqlMillis(5000);</span><br><span class="line">        return statFilter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public WallFilter wallFilter() &#123;</span><br><span class="line">        WallFilter wallFilter = new WallFilter();</span><br><span class="line">        //允许执行多条SQL</span><br><span class="line">        WallConfig config = new WallConfig();</span><br><span class="line">        config.setMultiStatementAllow(true);</span><br><span class="line">        wallFilter.setConfig(config);</span><br><span class="line">        return wallFilter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MasterDataSourceConfiguration配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import com.github.pagehelper.PageInterceptor;</span><br><span class="line">import org.apache.ibatis.plugin.Interceptor;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.mybatis.spring.SqlSessionFactoryBean;</span><br><span class="line">import org.mybatis.spring.SqlSessionTemplate;</span><br><span class="line">import org.mybatis.spring.annotation.MapperScan;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.core.io.support.PathMatchingResourcePatternResolver;</span><br><span class="line"></span><br><span class="line">import javax.sql.DataSource;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">@MapperScan(basePackages = &quot;com.cmge.xxxx.dao.master&quot;, sqlSessionTemplateRef = &quot;sqlSessionTemplate&quot;)</span><br><span class="line">public class MasterDataSourceConfiguration &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    @Qualifier(&quot;master&quot;)</span><br><span class="line">    private DataSource dataSource;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public SqlSessionFactory sqlSessionFactory() throws Exception &#123;</span><br><span class="line">        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();</span><br><span class="line">        bean.setDataSource(dataSource);</span><br><span class="line">        bean.setTypeAliasesPackage(&quot;com.cmge.xxxx.entity&quot;);</span><br><span class="line">        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(&quot;classpath:mappings/master/*.xml&quot;));</span><br><span class="line">        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();</span><br><span class="line">        configuration.setMapUnderscoreToCamelCase(true);</span><br><span class="line">        bean.setConfiguration(configuration);</span><br><span class="line">        return bean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public SqlSessionTemplate sqlSessionTemplate() throws Exception &#123;</span><br><span class="line">        return new SqlSessionTemplate(sqlSessionFactory());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SlaverDataSourceConfiguration配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">import com.github.pagehelper.PageInterceptor;</span><br><span class="line">import org.apache.ibatis.plugin.Interceptor;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.mybatis.spring.SqlSessionFactoryBean;</span><br><span class="line">import org.mybatis.spring.SqlSessionTemplate;</span><br><span class="line">import org.mybatis.spring.annotation.MapperScan;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.core.io.support.PathMatchingResourcePatternResolver;</span><br><span class="line"></span><br><span class="line">import javax.sql.DataSource;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">@MapperScan(basePackages = &quot;com.cmge.xxxx.dao.slave&quot;, sqlSessionTemplateRef = &quot;sqlSessionTemplate2&quot;)</span><br><span class="line">public class SlaverDataSourceConfiguration &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    @Qualifier(&quot;slave&quot;)</span><br><span class="line">    private DataSource dataSource;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public SqlSessionFactory sqlSessionFactory2() throws Exception &#123;</span><br><span class="line">        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();</span><br><span class="line">        bean.setDataSource(dataSource);</span><br><span class="line">        bean.setTypeAliasesPackage(&quot;com.cmge.xxxx.entity&quot;);</span><br><span class="line">        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(&quot;classpath:mappings/slave/*.xml&quot;));</span><br><span class="line">        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();</span><br><span class="line">        configuration.setMapUnderscoreToCamelCase(true);</span><br><span class="line">        bean.setConfiguration(configuration);</span><br><span class="line"></span><br><span class="line">        return bean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public SqlSessionTemplate sqlSessionTemplate2() throws Exception &#123;</span><br><span class="line">        return new SqlSessionTemplate(sqlSessionFactory2());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>应用与测试<br>应用的话比较简单，使用<br><code>@Transactional(transactionManager = &quot;dta&quot;, propagation = Propagation.REQUIRED, rollbackFor = { java.lang.RuntimeException.class })</code><br>这个注解即可。<br>测试案例这里就不贴了，大家可以在不同数据源建表写个业务尝试一下，当然啦，亲测是成功的！</p>
+</li>
+<li>问题回顾<br>没有什么事情会是一帆风顺的，配置过程中同样遇到了不少的问题，经过一番折腾终于搞定。<br><code>Exception：com.atomikos.datasource.ResourceException: Error in recovery</code><br>这个异常是由于Oracle数据库权限引起的，用sysdba用户登陆,给相应地用户赋权：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GRANT SELECT ON sys.dba_pending_transactions TO user;</span><br><span class="line">GRANT SELECT ON sys.pending_trans$ TO user;</span><br><span class="line">GRANT SELECT ON sys.dba_2pc_pending TO user;</span><br><span class="line">GRANT EXECUTE ON sys.dbms_system TO user:</span><br><span class="line">GRANT EXECUTE ON DBMS_XA TO user;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>　　实际应用中遇到的问题还是比较多，碰到比较典型的，我会再抽时间更上来的，大家如果有什么疑问也可以在下方留言，很高兴同各位探讨交流。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+            <a href="/tags/多数据源/" rel="tag"># 多数据源</a>
+          
+            <a href="/tags/分布式事务/" rel="tag"># 分布式事务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/15/REST理解与实现/" rel="next" title="REST理解与实现">
+                <i class="fa fa-chevron-left"></i> REST理解与实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/10/Java循环遍历的若干种方式/" rel="prev" title="Java循环遍历的若干种方式">
+                Java循环遍历的若干种方式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NzAxNC8yMzUxNA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/p.jpg" alt="Fland.Ho">
+            
+              <p class="site-author-name" itemprop="name">Fland.Ho</p>
+              <div class="site-description motion-element" itemprop="description">target.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.jianshu.com/u/2cb08a1f8b71" title="https://www.jianshu.com/u/2cb08a1f8b71" rel="noopener" target="_blank">JianShu</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fland.Ho</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script>
+  window.livereOptions = {
+    refer: '2019/10/09/SpringBoot多数据源分布式事务配置/'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -97,7 +97,7 @@
 
 
   <meta name="description" content="架构设计 设计思想将调度行为抽象形成“调度中心”公共平台，而平台自身并不承担业务逻辑，“调度中心”负责发起调度请求。将任务抽象成分散的JobHandler，交由“执行器”统一管理，“执行器”负责接收调度请求并执行对应的JobHandler中业务逻辑。因此，“调度”和“任务”两部分可以相互解耦，提高系统整体稳定性和扩展性。 系统组成 调度模块（调度中心）：负责管理调度信息，按照调度配置发出调度请求，">
-<meta name="keywords" content="Java,Distribut,TaskScheduling">
+<meta name="keywords" content="分布式,任务调度">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式任务调度平台XXL-JOB">
 <meta property="og:url" content="http://www.fland5.com/2020/04/18/分布式任务调度平台XXL-JOB/index.html">
@@ -105,7 +105,7 @@
 <meta property="og:description" content="架构设计 设计思想将调度行为抽象形成“调度中心”公共平台，而平台自身并不承担业务逻辑，“调度中心”负责发起调度请求。将任务抽象成分散的JobHandler，交由“执行器”统一管理，“执行器”负责接收调度请求并执行对应的JobHandler中业务逻辑。因此，“调度”和“任务”两部分可以相互解耦，提高系统整体稳定性和扩展性。 系统组成 调度模块（调度中心）：负责管理调度信息，按照调度配置发出调度请求，">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.fland5.com/images/distributedTaskScheduling.png">
-<meta property="og:updated_time" content="2020-04-18T15:29:47.353Z">
+<meta property="og:updated_time" content="2020-04-26T14:59:39.604Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式任务调度平台XXL-JOB">
 <meta name="twitter:description" content="架构设计 设计思想将调度行为抽象形成“调度中心”公共平台，而平台自身并不承担业务逻辑，“调度中心”负责发起调度请求。将任务抽象成分散的JobHandler，交由“执行器”统一管理，“执行器”负责接收调度请求并执行对应的JobHandler中业务逻辑。因此，“调度”和“任务”两部分可以相互解耦，提高系统整体稳定性和扩展性。 系统组成 调度模块（调度中心）：负责管理调度信息，按照调度配置发出调度请求，">
@@ -397,12 +397,24 @@
                 
               
 
-              <time title="创建时间：2020-04-18 23:30:00 / 修改时间：23:29:47" itemprop="dateCreated datePublished" datetime="2020-04-18T23:30:00+08:00">2020-04-18</time>
+              <time title="创建时间：2020-04-18 23:30:00" itemprop="dateCreated datePublished" datetime="2020-04-18T23:30:00+08:00">2020-04-18</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-26 22:59:39" itemprop="dateModified" datetime="2020-04-26T22:59:39+08:00">2020-04-26</time>
               
             
           </span>
@@ -419,7 +431,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Distribut/" itemprop="url" rel="index"><span itemprop="name">Distribut</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
 
                 
                 
@@ -486,11 +498,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag"># Java</a>
+            <a href="/tags/分布式/" rel="tag"># 分布式</a>
           
-            <a href="/tags/Distribut/" rel="tag"># Distribut</a>
-          
-            <a href="/tags/TaskScheduling/" rel="tag"># TaskScheduling</a>
+            <a href="/tags/任务调度/" rel="tag"># 任务调度</a>
           
         </div>
       
@@ -503,8 +513,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/04/18/stack/" rel="next" title="stack">
-                <i class="fa fa-chevron-left"></i> stack
+              <a href="/2020/04/18/两种主流分布式事务解决方案/" rel="next" title="两种主流分布式事务解决方案">
+                <i class="fa fa-chevron-left"></i> 两种主流分布式事务解决方案
               </a>
             
           </div>
@@ -591,7 +601,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">38</span>
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -630,7 +640,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -771,7 +785,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">62</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

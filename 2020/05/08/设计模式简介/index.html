@@ -96,18 +96,20 @@
 
 
 
-  <meta name="description" content="良好的日志系统是一个优秀项目的重要标识，默认情况下SpringBoot使用Logback来记录日志，本人通过在application.yml中增加如下配置：12logging:  config: classpath:logback-spring.xml 从而引入外部日志配置文件logback-spring.xml，下面将该配置文件代码分享如下，各配置详解见其上之注释。123456789101112">
-<meta name="keywords" content="Java,SpringBoot,日志">
+  <meta name="description" content="设计模式（Design pattern）是一套被反复使用的、多数人知晓的、经过分类编目的、代码设计经验的总结，是处理某类问题的最佳解决方案。(开发人员共同的平台+最佳的实践)设计模式基于面向对象的设计原则,对接口编程而不是对实现编程,优先使用对象组合而不是继承。*设计模式三大类型*  创建型模式（Creational Patterns）这些设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式，而不">
+<meta name="keywords" content="设计模式,简介">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringBoot日志配置详解">
-<meta property="og:url" content="http://www.fland5.com/2020/04/18/SpringBoot日志配置详解/index.html">
+<meta property="og:title" content="设计模式简介">
+<meta property="og:url" content="http://www.fland5.com/2020/05/08/设计模式简介/index.html">
 <meta property="og:site_name" content="Fland&#39;s blog">
-<meta property="og:description" content="良好的日志系统是一个优秀项目的重要标识，默认情况下SpringBoot使用Logback来记录日志，本人通过在application.yml中增加如下配置：12logging:  config: classpath:logback-spring.xml 从而引入外部日志配置文件logback-spring.xml，下面将该配置文件代码分享如下，各配置详解见其上之注释。123456789101112">
+<meta property="og:description" content="设计模式（Design pattern）是一套被反复使用的、多数人知晓的、经过分类编目的、代码设计经验的总结，是处理某类问题的最佳解决方案。(开发人员共同的平台+最佳的实践)设计模式基于面向对象的设计原则,对接口编程而不是对实现编程,优先使用对象组合而不是继承。*设计模式三大类型*  创建型模式（Creational Patterns）这些设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式，而不">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-26T15:05:36.515Z">
+<meta property="og:image" content="http://www.fland5.com/images/relationshipBetweenDesignPattern.png">
+<meta property="og:updated_time" content="2020-05-08T15:48:42.930Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SpringBoot日志配置详解">
-<meta name="twitter:description" content="良好的日志系统是一个优秀项目的重要标识，默认情况下SpringBoot使用Logback来记录日志，本人通过在application.yml中增加如下配置：12logging:  config: classpath:logback-spring.xml 从而引入外部日志配置文件logback-spring.xml，下面将该配置文件代码分享如下，各配置详解见其上之注释。123456789101112">
+<meta name="twitter:title" content="设计模式简介">
+<meta name="twitter:description" content="设计模式（Design pattern）是一套被反复使用的、多数人知晓的、经过分类编目的、代码设计经验的总结，是处理某类问题的最佳解决方案。(开发人员共同的平台+最佳的实践)设计模式基于面向对象的设计原则,对接口编程而不是对实现编程,优先使用对象组合而不是继承。*设计模式三大类型*  创建型模式（Creational Patterns）这些设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式，而不">
+<meta name="twitter:image" content="http://www.fland5.com/images/relationshipBetweenDesignPattern.png">
 
 
 
@@ -115,7 +117,7 @@
 
   
   
-  <link rel="canonical" href="http://www.fland5.com/2020/04/18/SpringBoot日志配置详解/">
+  <link rel="canonical" href="http://www.fland5.com/2020/05/08/设计模式简介/">
 
 
 
@@ -125,7 +127,7 @@
   };
 </script>
 
-  <title>SpringBoot日志配置详解 | Fland's blog</title>
+  <title>设计模式简介 | Fland's blog</title>
   
 
 
@@ -352,7 +354,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.fland5.com/2020/04/18/SpringBoot日志配置详解/">
+    <link itemprop="mainEntityOfPage" href="http://www.fland5.com/2020/05/08/设计模式简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fland.Ho">
@@ -369,7 +371,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SpringBoot日志配置详解
+          <h1 class="post-title" itemprop="name headline">设计模式简介
 
               
             
@@ -395,24 +397,12 @@
                 
               
 
-              <time title="创建时间：2020-04-18 23:30:00" itemprop="dateCreated datePublished" datetime="2020-04-18T23:30:00+08:00">2020-04-18</time>
+              <time title="创建时间：2020-05-08 23:46:00 / 修改时间：23:48:42" itemprop="dateCreated datePublished" datetime="2020-05-08T23:46:00+08:00">2020-05-08</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-04-26 23:05:36" itemprop="dateModified" datetime="2020-04-26T23:05:36+08:00">2020-04-26</time>
               
             
           </span>
@@ -429,7 +419,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
 
                 
                 
@@ -464,8 +454,55 @@
       
 
       
-        <p>良好的日志系统是一个优秀项目的重要标识，默认情况下SpringBoot使用Logback来记录日志，本人通过在application.yml中增加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">logging:</span><br><span class="line">  config: classpath:logback-spring.xml</span><br></pre></td></tr></table></figure></p>
-<p>从而引入外部日志配置文件logback-spring.xml，下面将该配置文件代码分享如下，各配置详解见其上之注释。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!-- scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。--&gt;</span><br><span class="line">&lt;!-- scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。--&gt;</span><br><span class="line">&lt;!-- debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。--&gt;</span><br><span class="line">&lt;configuration scan=&quot;true&quot; scanPeriod=&quot;60 seconds&quot; debug=&quot;false&quot;&gt;</span><br><span class="line">    &lt;!-- 判断项目是否在tomcat中启动 --&gt;</span><br><span class="line">    &lt;if condition=&apos;isDefined(&quot;catalina.home&quot;)&apos;&gt;</span><br><span class="line">        &lt;then&gt;</span><br><span class="line">            &lt;property name=&quot;log.folder&quot; value=&quot;$&#123;catalina.home&#125;/logs&quot;/&gt;</span><br><span class="line">        &lt;/then&gt;</span><br><span class="line">        &lt;else&gt;</span><br><span class="line">            &lt;property name=&quot;log.folder&quot; value=&quot;./target/logs&quot;/&gt;</span><br><span class="line">        &lt;/else&gt;</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    &lt;!-- 设置上下文名称：每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改,可以通过%contextName来打印日志上下文名称。--&gt;</span><br><span class="line">    &lt;contextName&gt;logback&lt;/contextName&gt;</span><br><span class="line">    &lt;!-- 设置变量：用来定义变量值的标签， 有两个属性，name和value；其中name的值是变量的名称，value的值时变量定义的值。通过定义的值会被插入到logger上下文中。定义变量后，可以使“$&#123;&#125;”来使用变量。--&gt;</span><br><span class="line">    &lt;!--&lt;property name=&quot;log.path&quot; value=&quot;/user/test/log&quot; /&gt;--&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- appender是configuration的子节点,是负责写日志的组件 --&gt;</span><br><span class="line">    &lt;!-- appender的class属性为ConsoleAppender是把日志输出到控制台 --&gt;</span><br><span class="line">    &lt;appender name=&quot;console&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;</span><br><span class="line">        &lt;!-- ThresholdFilter为系统定义的拦截器，例如我们用ThresholdFilter来过滤掉ERROR级别以下的日志不输出到文件中。如果不用记得注释掉，不然你控制台会发现没日志。 --&gt;</span><br><span class="line">        &lt;!--&lt;filter class=&quot;ch.qos.logback.classic.filter.ThresholdFilter&quot;&gt;</span><br><span class="line">            &lt;level&gt;ERROR&lt;/level&gt;</span><br><span class="line">        &lt;/filter&gt;--&gt;</span><br><span class="line">        &lt;!-- 对日志编码 --&gt;</span><br><span class="line">        &lt;encoder&gt;</span><br><span class="line">            &lt;!-- %date:时间,%highlight(%-5level):级别并附上颜色,%file:文件,%line:行,%m:消息,%n——平台的换行符,%thread:线程名 --&gt;</span><br><span class="line">            &lt;!--&lt;pattern&gt;$&#123;CONSOLE_LOG_PATTERN&#125;&lt;/pattern&gt; --&gt;</span><br><span class="line">            &lt;pattern&gt;%date&#123;yyyy-MM-dd HH:mm:ss&#125; %highlight(%-5level) %boldYellow(%thread) (%file:%line\)- %m%n&lt;/pattern&gt;</span><br><span class="line">            &lt;!-- 控制台也要使用utf-8，不要使用gbk --&gt;</span><br><span class="line">            &lt;charset&gt;UTF-8&lt;/charset&gt;</span><br><span class="line">        &lt;/encoder&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- RollingFileAppender:滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 --&gt;</span><br><span class="line">    &lt;!-- 1.先按日期存日志，日期变了，将前一天的日志文件名重命名为xxx%日期%索引，新的日志仍然是sys.log --&gt;</span><br><span class="line">    &lt;!-- 2.如果日期没有变化，但是当前日志文件的大小超过1kb时，对当前日志进行分割 重名名 --&gt;</span><br><span class="line">    &lt;appender name=&quot;file&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;</span><br><span class="line">        &lt;File&gt;$&#123;log.folder&#125;/mylog/sys.log&lt;/File&gt;</span><br><span class="line">        &lt;!-- rollingPolicy:当发生滚动时，决定 RollingFileAppender 的行为，涉及文件移动和重命名。 --&gt;</span><br><span class="line">        &lt;!-- TimeBasedRollingPolicy： 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动 --&gt;</span><br><span class="line">        &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;</span><br><span class="line">            &lt;!-- 活动文件的名字会根据fileNamePattern的值，每隔一段时间改变一次 --&gt;</span><br><span class="line">            &lt;!-- 文件名：log/sys.2017-12-05.0.log --&gt;</span><br><span class="line">            &lt;fileNamePattern&gt;$&#123;log.folder&#125;/mylog/sys.%d.%i.log&lt;/fileNamePattern&gt;</span><br><span class="line">            &lt;!-- 每产生一个日志文件，该日志文件的保存期限为30天 --&gt;</span><br><span class="line">            &lt;maxHistory&gt;30&lt;/maxHistory&gt;</span><br><span class="line">            &lt;timeBasedFileNamingAndTriggeringPolicy class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;&gt;</span><br><span class="line">                &lt;!-- maxFileSize:这是活动文件的大小，默认值是10MB,本篇设置为1KB，只是为了演示 --&gt;</span><br><span class="line">                &lt;maxFileSize&gt;10240KB&lt;/maxFileSize&gt;</span><br><span class="line">            &lt;/timeBasedFileNamingAndTriggeringPolicy&gt;</span><br><span class="line">        &lt;/rollingPolicy&gt;</span><br><span class="line">        &lt;encoder&gt;</span><br><span class="line">            &lt;!-- pattern节点，用来设置日志的输入格式 --&gt;</span><br><span class="line">            &lt;pattern&gt;</span><br><span class="line">                %d %p %t (%file:%line\)- %m%n</span><br><span class="line">            &lt;/pattern&gt;</span><br><span class="line">            &lt;!-- 记录日志的编码 --&gt;</span><br><span class="line">            &lt;charset&gt;UTF-8&lt;/charset&gt;</span><br><span class="line">        &lt;/encoder&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line">    &lt;!-- 控制台日志输出级别 --&gt;</span><br><span class="line">    &lt;!-- root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性。 --&gt;</span><br><span class="line">    &lt;root level=&quot;debug&quot;&gt;</span><br><span class="line">        &lt;appender-ref ref=&quot;console&quot;/&gt;</span><br><span class="line">        &lt;appender-ref ref=&quot;file&quot;/&gt;</span><br><span class="line">    &lt;/root&gt;</span><br><span class="line">    &lt;!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 --&gt;</span><br><span class="line">    &lt;!-- com.test.test为根包，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是DEBUG --&gt;</span><br><span class="line">    &lt;!-- level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，还有一个特殊值INHERITED或者同义词NULL，代表强制执行上级的级别。如果未设置此属性，那么当前logger将会继承上级的级别。 --&gt;</span><br><span class="line">    &lt;logger name=&quot;com.test.test&quot; level=&quot;debug&quot;&gt;</span><br><span class="line">        &lt;appender-ref ref=&quot;console&quot;/&gt;</span><br><span class="line">        &lt;appender-ref ref=&quot;file&quot;/&gt;</span><br><span class="line">    &lt;/logger&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure></p>
+        <p>设计模式（Design pattern）是一套被反复使用的、多数人知晓的、经过分类编目的、代码设计经验的总结，是处理某类问题的最佳解决方案。(开发人员共同的平台+最佳的实践)<br>设计模式基于面向对象的设计原则,对接口编程而不是对实现编程,优先使用对象组合而不是继承。<br><strong>*</strong>设计模式三大类型<strong>*</strong></p>
+<ol>
+<li>创建型模式（Creational Patterns）<br>这些设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式，而不是使用 new 运算符直接实例化对象。这使得程序在判断针对某个给定实例需要创建哪些对象时更加灵活。</li>
+</ol>
+<ul>
+<li>工厂模式（Factory Pattern）</li>
+<li>抽象工厂模式（Abstract Factory Pattern）</li>
+<li>单例模式（Singleton Pattern）</li>
+<li>建造者模式（Builder Pattern）</li>
+<li>原型模式（Prototype Pattern）</li>
+</ul>
+<ol start="2">
+<li>结构型模式（Structural Patterns）<br>这些设计模式关注类和对象的组合。继承的概念被用来组合接口和定义组合对象获得新功能的方式。</li>
+</ol>
+<ul>
+<li>适配器模式（Adapter Pattern）</li>
+<li>桥接模式（Bridge Pattern）</li>
+<li>过滤器模式（Filter、Criteria Pattern）</li>
+<li>组合模式（Composite Pattern）</li>
+<li>装饰器模式（Decorator Pattern）</li>
+<li>外观模式（Facade Pattern）</li>
+<li>享元模式（Flyweight Pattern）</li>
+<li>代理模式（Proxy Pattern）</li>
+</ul>
+<ol start="3">
+<li>行为型模式（Behavioral Patterns）<br>这些设计模式特别关注对象之间的通信。    </li>
+</ol>
+<ul>
+<li>责任链模式（Chain of Responsibility Pattern）</li>
+<li>命令模式（Command Pattern）</li>
+<li>解释器模式（Interpreter Pattern）</li>
+<li>迭代器模式（Iterator Pattern）</li>
+<li>中介者模式（Mediator Pattern）</li>
+<li>备忘录模式（Memento Pattern）</li>
+<li>观察者模式（Observer Pattern）</li>
+<li>状态模式（State Pattern）</li>
+<li>空对象模式（Null Object Pattern）</li>
+<li>策略模式（Strategy Pattern）</li>
+<li>模板模式（Template Pattern）</li>
+<li>访问者模式（Visitor Pattern）<br><strong>*</strong>设计模式间的关系<strong>*</strong><br><img src="/images/relationshipBetweenDesignPattern.png" alt><br><strong>*</strong>设计模式六大原则<strong>*</strong></li>
+</ul>
+<ol>
+<li>单一原则（SRP:Single Responsibility Principle）：一个类只负责一项职责，一个类应该有且只有一个变化的原因。</li>
+<li>开闭原则（OCP:Open Closed Principle）：一个软件实体(如类、模块、函数)应当对扩展开放，对修改关闭。</li>
+<li>里氏替换原则（LSP:Liskov Substitution Principle）：子类可以扩展父类的功能，但不能改变父类原有的功能。</li>
+<li>迪米特原则（LKP:Least Knowledge Principle）：最少知道原则，一个对象应该对其他的对象有最少的了解，尽量降低类与类之间的耦合。</li>
+<li>接口隔离原则（ISP:Interface Segregation Principle）：建立单一接口，使类与类之间的依赖关系应该是建立在最小的接口上。</li>
+<li>依赖倒置原则（DIP:Dependence Inversion Principle）：抽象不应该依赖细节，细节应该依赖抽象。</li>
+</ol>
 
       
     </div>
@@ -489,11 +526,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag"># Java</a>
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
           
-            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
-          
-            <a href="/tags/日志/" rel="tag"># 日志</a>
+            <a href="/tags/简介/" rel="tag"># 简介</a>
           
         </div>
       
@@ -506,8 +541,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/04/18/OSI七层协议模型+TCP:IP四层协议模型/" rel="next" title="OSI七层模型+TCP/IP四层模型">
-                <i class="fa fa-chevron-left"></i> OSI七层模型+TCP/IP四层模型
+              <a href="/2020/05/07/linux学习笔记/" rel="next" title="linux学习笔记">
+                <i class="fa fa-chevron-left"></i> linux学习笔记
               </a>
             
           </div>
@@ -515,10 +550,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/04/18/Set/" rel="prev" title="Set">
-                Set <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -963,7 +994,7 @@
   
     <script>
   window.livereOptions = {
-    refer: '2020/04/18/SpringBoot日志配置详解/'
+    refer: '2020/05/08/设计模式简介/'
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];

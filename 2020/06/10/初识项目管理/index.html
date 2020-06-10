@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Fland&#39;s blog">
 <meta property="og:description" content="项目需要被完成的一组事务的集合。 团队为实现同一个目标而组合起来的分工明确的主体的集合。 互联网团队基本组成需求方：将需求想法传递给产品。产品：整理需求方需求，设计产品。项管：团队leader，团队资源调度，项目整体把控。设计：UI设计、UX设计。UI负责静态(用户界面、设计风格)部分的设计，UX负责动态(功能交互、用户体验)部分的设计。程序：项目实现，前端、后端。前端负责UI、UX部分的程序实">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-10T16:38:46.301Z">
+<meta property="og:updated_time" content="2020-06-10T16:49:06.328Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识项目管理">
 <meta name="twitter:description" content="项目需要被完成的一组事务的集合。 团队为实现同一个目标而组合起来的分工明确的主体的集合。 互联网团队基本组成需求方：将需求想法传递给产品。产品：整理需求方需求，设计产品。项管：团队leader，团队资源调度，项目整体把控。设计：UI设计、UX设计。UI负责静态(用户界面、设计风格)部分的设计，UX负责动态(功能交互、用户体验)部分的设计。程序：项目实现，前端、后端。前端负责UI、UX部分的程序实">
@@ -412,7 +412,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-06-11 00:38:46" itemprop="dateModified" datetime="2020-06-11T00:38:46+08:00">2020-06-11</time>
+                <time title="修改时间：2020-06-11 00:49:06" itemprop="dateModified" datetime="2020-06-11T00:49:06+08:00">2020-06-11</time>
               
             
           </span>
@@ -468,12 +468,203 @@
 <li>项目<br>需要被完成的一组事务的集合。</li>
 <li>团队<br>为实现同一个目标而组合起来的分工明确的主体的集合。</li>
 <li>互联网团队基本组成<br>需求方：将需求想法传递给产品。<br>产品：整理需求方需求，设计产品。<br>项管：团队leader，团队资源调度，项目整体把控。<br>设计：UI设计、UX设计。UI负责静态(用户界面、设计风格)部分的设计，UX负责动态(功能交互、用户体验)部分的设计。<br>程序：项目实现，前端、后端。前端负责UI、UX部分的程序实现，后端负责数据、逻辑的程序实现。<br>测试：产品功能、性能测试。<br>运维：产品环境搭建、上线部署、监控。</li>
-<li>项目流程<br> 4.1 瀑布流程<br>| 成员 | 时间1 | 时间2 | 时间3 | 时间4 |<br>| :–: | :–: | :–: | :–: | :–: |<br>| 产品 | doing | - | - | - |<br>| 设计 | waiting | doing | - | - |<br>| 程序 | waiting | waiting | doing | - |<br>| 测试 | waiting | waiting | waiting | doing |<br> 4.2 迭代流程<br>| 成员 | 迭代1 | 迭代2 | 迭代3 | 迭代4 | … |<br>| :–: | :–: | :–: | :–: | :–: | :–: |<br>| 产品 | doing sub1 | doing sub2 | doing sub3 | doing sub4 | … |<br>| 设计 | doing sub1 | doing sub2 | doing sub3 | doing sub4 | … |<br>| 程序 | doing sub1 | doing sub2 | doing sub3 | doing sub4 | … |<br>| 测试 | doing sub1 | doing sub2 | doing sub3 | doing sub4 | … |<br>拆瀑布为迭代<br> 4.3 敏捷流程<br>以功能快速实现为核心。</li>
-<li>项目工具-看板<br> 5.1 实体看板<br> 5.2 互联网看板<br> 5.3 看板分类<pre><code>5.3.1 项管主导型
-</code></pre>| name | todo | doing | done |<br>| :–: | :–: | :–: | :–: |<br>| 小明 | Task1 | Task2 | Task3 |<br>| 小军 | Task4 | Task2 | Task5 |<br>| 小红 |  |  | Task1 | <pre><code>5.3.2 成员主导型
-</code></pre>| module | todo | doing | done |<br>| :–: | :–: | :–: | :–: |<br>| A模块 | Task1 | Task2-小明 | Task3-小军 |<br>| B模块 | Task1 | Task3-小军 | Task2-小红 |<br>| C模块 |  |  | Task1-小明 | <pre><code>5.3.3 推荐看板
-</code></pre>| module | taskPool | emergency | inProgramm | inTest | complete |<br>| :–: | :–: | :–: | :–: | :–: | :–: |<br>| A模块 | Task1、Task2、Task3 | Task4-小明 | Task5-小军 | Task6-小军 | Task7-小红 |<br>| B模块 | Task1、Task4、Task6 | Task2-小明 | Task3-小军 | Task5-小军 | Task7-小红 |<br>| C模块 | Task1、Task2、Task3 | Task4-小明 | Task5-小明 | Task6-小军 | Task7-小红 | </li>
+<li>项目流程<br> 4.1. 瀑布流程</li>
 </ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">成员</th>
+<th style="text-align:center">时间1</th>
+<th style="text-align:center">时间2</th>
+<th style="text-align:center">时间3</th>
+<th style="text-align:center">时间4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">产品</td>
+<td style="text-align:center">doing</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">设计</td>
+<td style="text-align:center">waiting</td>
+<td style="text-align:center">doing</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">程序</td>
+<td style="text-align:center">waiting</td>
+<td style="text-align:center">waiting</td>
+<td style="text-align:center">doing</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">测试</td>
+<td style="text-align:center">waiting</td>
+<td style="text-align:center">waiting</td>
+<td style="text-align:center">waiting</td>
+<td style="text-align:center">doing</td>
+</tr>
+</tbody>
+</table>
+<pre><code>4.2. 迭代流程
+</code></pre><table>
+<thead>
+<tr>
+<th style="text-align:center">成员</th>
+<th style="text-align:center">迭代1</th>
+<th style="text-align:center">迭代2</th>
+<th style="text-align:center">迭代3</th>
+<th style="text-align:center">迭代4</th>
+<th style="text-align:center">…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">产品</td>
+<td style="text-align:center">doing sub1</td>
+<td style="text-align:center">doing sub2</td>
+<td style="text-align:center">doing sub3</td>
+<td style="text-align:center">doing sub4</td>
+<td style="text-align:center">…</td>
+</tr>
+<tr>
+<td style="text-align:center">设计</td>
+<td style="text-align:center">doing sub1</td>
+<td style="text-align:center">doing sub2</td>
+<td style="text-align:center">doing sub3</td>
+<td style="text-align:center">doing sub4</td>
+<td style="text-align:center">…</td>
+</tr>
+<tr>
+<td style="text-align:center">程序</td>
+<td style="text-align:center">doing sub1</td>
+<td style="text-align:center">doing sub2</td>
+<td style="text-align:center">doing sub3</td>
+<td style="text-align:center">doing sub4</td>
+<td style="text-align:center">…</td>
+</tr>
+<tr>
+<td style="text-align:center">测试</td>
+<td style="text-align:center">doing sub1</td>
+<td style="text-align:center">doing sub2</td>
+<td style="text-align:center">doing sub3</td>
+<td style="text-align:center">doing sub4</td>
+<td style="text-align:center">…</td>
+</tr>
+</tbody>
+</table>
+<p>拆瀑布为迭代</p>
+<pre><code>4.3. 敏捷流程
+</code></pre><p>以功能快速实现为核心。</p>
+<ol start="5">
+<li>项目工具-看板<br> 5.1. 实体看板<br> 5.2. 互联网看板<br> 5.3. 看板分类<pre><code>5.3.1. 项管主导型
+</code></pre></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">name</th>
+<th style="text-align:center">todo</th>
+<th style="text-align:center">doing</th>
+<th style="text-align:center">done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">小明</td>
+<td style="text-align:center">Task1</td>
+<td style="text-align:center">Task2</td>
+<td style="text-align:center">Task3</td>
+</tr>
+<tr>
+<td style="text-align:center">小军</td>
+<td style="text-align:center">Task4</td>
+<td style="text-align:center">Task2</td>
+<td style="text-align:center">Task5</td>
+</tr>
+<tr>
+<td style="text-align:center">小红</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">Task1</td>
+</tr>
+</tbody>
+</table>
+<pre><code>5.3.2. 成员主导型
+</code></pre><table>
+<thead>
+<tr>
+<th style="text-align:center">module</th>
+<th style="text-align:center">todo</th>
+<th style="text-align:center">doing</th>
+<th style="text-align:center">done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A模块</td>
+<td style="text-align:center">Task1</td>
+<td style="text-align:center">Task2-小明</td>
+<td style="text-align:center">Task3-小军</td>
+</tr>
+<tr>
+<td style="text-align:center">B模块</td>
+<td style="text-align:center">Task1</td>
+<td style="text-align:center">Task3-小军</td>
+<td style="text-align:center">Task2-小红</td>
+</tr>
+<tr>
+<td style="text-align:center">C模块</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">Task1-小明</td>
+</tr>
+</tbody>
+</table>
+<pre><code>5.3.3. 推荐看板
+</code></pre><table>
+<thead>
+<tr>
+<th style="text-align:center">module</th>
+<th style="text-align:center">taskPool</th>
+<th style="text-align:center">emergency</th>
+<th style="text-align:center">inProgramm</th>
+<th style="text-align:center">inTest</th>
+<th style="text-align:center">complete</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A模块</td>
+<td style="text-align:center">Task1、Task2、Task3</td>
+<td style="text-align:center">Task4-小明</td>
+<td style="text-align:center">Task5-小军</td>
+<td style="text-align:center">Task6-小军</td>
+<td style="text-align:center">Task7-小红</td>
+</tr>
+<tr>
+<td style="text-align:center">B模块</td>
+<td style="text-align:center">Task1、Task4、Task6</td>
+<td style="text-align:center">Task2-小明</td>
+<td style="text-align:center">Task3-小军</td>
+<td style="text-align:center">Task5-小军</td>
+<td style="text-align:center">Task7-小红</td>
+</tr>
+<tr>
+<td style="text-align:center">C模块</td>
+<td style="text-align:center">Task1、Task2、Task3</td>
+<td style="text-align:center">Task4-小明</td>
+<td style="text-align:center">Task5-小明</td>
+<td style="text-align:center">Task6-小军</td>
+<td style="text-align:center">Task7-小红</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>

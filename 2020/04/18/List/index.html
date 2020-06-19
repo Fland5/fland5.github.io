@@ -107,7 +107,7 @@
 <meta property="og:image" content="http://www.fland5.com/images/ListStructure.png">
 <meta property="og:image" content="http://www.fland5.com/images/LinkedListMemberVariables.png">
 <meta property="og:image" content="http://www.fland5.com/images/LinkedListNode.png">
-<meta property="og:updated_time" content="2020-04-26T15:04:29.616Z">
+<meta property="og:updated_time" content="2020-06-19T05:38:03.812Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="List">
 <meta name="twitter:description" content="有序，允许存储空元素，允许存储相等项。  ArrayList基于数组，便于查改。动态扩容。 VectorList非线程安全，但只有在发生resize的时候才触发不安全操作。因此，如果List初始容量足够大，是可以进行多线程操作的。当然！并发场合还是推荐使用并发容器CopyOnWriteList。Vector是ArrayList线程安全版。由synchronized锁实现，性能损耗较大。 Linke">
@@ -416,7 +416,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-26 23:04:29" itemprop="dateModified" datetime="2020-04-26T23:04:29+08:00">2020-04-26</time>
+                <time title="修改时间：2020-06-19 13:38:03" itemprop="dateModified" datetime="2020-06-19T13:38:03+08:00">2020-06-19</time>
               
             
           </span>
@@ -472,8 +472,11 @@
 <ol>
 <li>ArrayList<br>基于数组，便于查改。<br>动态扩容。</li>
 <li>Vector<br>List非线程安全，但只有在发生resize的时候才触发不安全操作。因此，如果List初始容量足够大，是可以进行多线程操作的。当然！并发场合还是推荐使用并发容器CopyOnWriteList。<br>Vector是ArrayList线程安全版。<br>由synchronized锁实现，性能损耗较大。</li>
-<li>LinkedList<br>基于双向链表结构，便于增删。<br><img src="/images/LinkedListMemberVariables.png" alt="LinkedList3个成员变量"><br><img src="/images/LinkedListNode.png" alt="Node数据结构"></li>
+<li>LinkedList<br><code>public class LinkedList&lt;E&gt; extends AbstractSequentialList&lt;E&gt; implements List&lt;E&gt;, Deque&lt;E&gt;,Cloneable,java.io.Serializable</code></li>
 </ol>
+<p>是一个继承于AbstractSequentialList的双向链表。它也可以被当作堆栈、队列或双端队列进行操作。<br>实现了Cloneable接口，即覆盖了函数clone()，能克隆。<br>实现java.io.Serializable接口，这意味着LinkedList支持序列化，能通过序列化去传输。<br>实现了List接口。<br>实现了Deque接口。<br>非同步。</p>
+<p>LinkedList包含两个重要的成员：header 和 size。<br>header是双向链表的表头，它是双向链表节点所对应的类Entry的实例。Entry中包含成员变量： previous, next, element。其中，previous是该节点的上一个节点，next是该节点的下一个节点，element是该节点所包含的值。<br>size是双向链表中节点的个数。</p>
+<p><img src="/images/LinkedListMemberVariables.png" alt="LinkedList3个成员变量"><br><img src="/images/LinkedListNode.png" alt="Node数据结构"></p>
 
       
     </div>
@@ -593,7 +596,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">62</span>
+                    <span class="site-state-item-count">63</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -853,7 +856,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">96</span>
+                      
+                    
+                    <span class="site-state-item-count">97</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

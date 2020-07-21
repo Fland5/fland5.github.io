@@ -444,6 +444,19 @@
           
             
             
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2020/04/18/List/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/04/18/List/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -517,8 +530,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/04/18/ELK经典架构之Logstash/" rel="next" title="ELK经典架构之Logstash">
-                <i class="fa fa-chevron-left"></i> ELK经典架构之Logstash
+              <a href="/2020/04/18/Maven POM 简解/" rel="next" title="Maven Pom 简注">
+                <i class="fa fa-chevron-left"></i> Maven Pom 简注
               </a>
             
           </div>
@@ -527,8 +540,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/18/ELK经典架构之Filebeat/" rel="prev" title="ELK经典架构之Filebeat">
-                ELK经典架构之Filebeat <i class="fa fa-chevron-right"></i>
+              <a href="/2020/04/18/Java并发-学习笔记1/" rel="prev" title="Java并发-学习笔记1">
+                Java并发-学习笔记1 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -553,7 +566,9 @@
 
   
     <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC80NzAxNC8yMzUxNA=="></div>
+      
+        <div id="gitment-container"></div>
+      
     </div>
 
   
@@ -1064,18 +1079,37 @@
 
 
   
-    <script>
-  window.livereOptions = {
-    refer: '2020/04/18/List/'
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
+    <!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitmint.browser.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
+<!-- END LOCAL -->
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitmint({
+      id: window.location.pathname,
+      owner: '',
+      repo: 'blogComments',
+      
+        lang: '' || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+      
+      oauth: {
+      
+      
+        client_secret: '17a583751b8a57cfb7d70d60c8b40e83055f6f56',
+      
+        client_id: 'Iv1.170a24114c622bcd'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
 </script>
 
   

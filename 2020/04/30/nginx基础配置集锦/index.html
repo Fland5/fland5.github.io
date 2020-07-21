@@ -97,7 +97,7 @@
 
 
   <meta name="description" content="NginxNginx (engine x) 是一款轻量级的Web 服务器 、反向代理服务器及电子邮件（IMAP/POP3）代理服务器。 反向代理反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。 安装htt">
-<meta name="keywords" content="nginx,Web Server">
+<meta name="keywords" content="Web Server,nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx基础配置集锦">
 <meta property="og:url" content="http://www.fland5.com/2020/04/30/nginx基础配置集锦/index.html">
@@ -430,6 +430,19 @@
           
             
             
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2020/04/30/nginx基础配置集锦/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/04/30/nginx基础配置集锦/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -506,9 +519,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/nginx/" rel="tag"># nginx</a>
-          
             <a href="/tags/Web-Server/" rel="tag"># Web Server</a>
+          
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
           
         </div>
       
@@ -557,7 +570,9 @@
 
   
     <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC80NzAxNC8yMzUxNA=="></div>
+      
+        <div id="gitment-container"></div>
+      
     </div>
 
   
@@ -1068,18 +1083,37 @@
 
 
   
-    <script>
-  window.livereOptions = {
-    refer: '2020/04/30/nginx基础配置集锦/'
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
+    <!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitmint.browser.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
+<!-- END LOCAL -->
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitmint({
+      id: window.location.pathname,
+      owner: '',
+      repo: 'blogComments',
+      
+        lang: '' || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+      
+      oauth: {
+      
+      
+        client_secret: '17a583751b8a57cfb7d70d60c8b40e83055f6f56',
+      
+        client_id: 'Iv1.170a24114c622bcd'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
 </script>
 
   

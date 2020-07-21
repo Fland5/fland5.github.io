@@ -449,6 +449,19 @@
           
             
             
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2020/04/18/ELK经典架构之Filebeat/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/04/18/ELK经典架构之Filebeat/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -534,8 +547,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/04/18/List/" rel="next" title="List">
-                <i class="fa fa-chevron-left"></i> List
+              <a href="/2020/04/18/ELK经典架构之Elasticsearch/" rel="next" title="ELK经典架构之Elasticsearch">
+                <i class="fa fa-chevron-left"></i> ELK经典架构之Elasticsearch
               </a>
             
           </div>
@@ -544,8 +557,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/18/HTTP协议/" rel="prev" title="HTTP协议">
-                HTTP协议 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/04/18/ELK经典架构之ElastAlert/" rel="prev" title="ELK经典架构之ElastAlert">
+                ELK经典架构之ElastAlert <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -570,7 +583,9 @@
 
   
     <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC80NzAxNC8yMzUxNA=="></div>
+      
+        <div id="gitment-container"></div>
+      
     </div>
 
   
@@ -1107,18 +1122,37 @@
 
 
   
-    <script>
-  window.livereOptions = {
-    refer: '2020/04/18/ELK经典架构之Filebeat/'
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
+    <!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitmint.browser.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
+<!-- END LOCAL -->
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitmint({
+      id: window.location.pathname,
+      owner: '',
+      repo: 'blogComments',
+      
+        lang: '' || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+      
+      oauth: {
+      
+      
+        client_secret: '17a583751b8a57cfb7d70d60c8b40e83055f6f56',
+      
+        client_id: 'Iv1.170a24114c622bcd'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
 </script>
 
   

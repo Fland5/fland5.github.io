@@ -448,6 +448,19 @@
           
             
             
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2020/04/18/OSI七层协议模型+TCP:IP四层协议模型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/04/18/OSI七层协议模型+TCP:IP四层协议模型/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -580,8 +593,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/04/18/REST理解与实现/" rel="next" title="REST理解与实现">
-                <i class="fa fa-chevron-left"></i> REST理解与实现
+              <a href="/2020/04/18/Set/" rel="next" title="Set">
+                <i class="fa fa-chevron-left"></i> Set
               </a>
             
           </div>
@@ -590,8 +603,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/18/Maven POM 简解/" rel="prev" title="Maven Pom 简注">
-                Maven Pom 简注 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/04/18/REST理解与实现/" rel="prev" title="REST理解与实现">
+                REST理解与实现 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -616,7 +629,9 @@
 
   
     <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC80NzAxNC8yMzUxNA=="></div>
+      
+        <div id="gitment-container"></div>
+      
     </div>
 
   
@@ -1127,18 +1142,37 @@
 
 
   
-    <script>
-  window.livereOptions = {
-    refer: '2020/04/18/OSI七层协议模型+TCP:IP四层协议模型/'
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
+    <!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitmint.browser.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
+<!-- END LOCAL -->
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitmint({
+      id: window.location.pathname,
+      owner: '',
+      repo: 'blogComments',
+      
+        lang: '' || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+      
+      oauth: {
+      
+      
+        client_secret: '17a583751b8a57cfb7d70d60c8b40e83055f6f56',
+      
+        client_id: 'Iv1.170a24114c622bcd'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
 </script>
 
   

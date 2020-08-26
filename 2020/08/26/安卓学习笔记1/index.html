@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN,en,default">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon48.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/favicon48.png?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Android 是一个开源的，基于 Linux 的移动设备操作系统，如智能手机和平板电脑。 开发优势开放源代码众多开发者及强大的社区不断增长的市场国际化的 App 集成低廉的开发成本更高的成功几率丰富的开发环境 特性 历史 环境搭建安装JDK 架构 Linux内核在所有层的最底下是 Linux - 包括大约115个补丁的 Linux 3.6。它提供了基本的系统功能，比如进程管理，内存管理，设备管">
+<meta name="keywords" content="安卓,笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓学习笔记1">
+<meta property="og:url" content="http://www.fland5.com/2020/08/26/安卓学习笔记1/index.html">
+<meta property="og:site_name" content="Fland&#39;s blog">
+<meta property="og:description" content="Android 是一个开源的，基于 Linux 的移动设备操作系统，如智能手机和平板电脑。 开发优势开放源代码众多开发者及强大的社区不断增长的市场国际化的 App 集成低廉的开发成本更高的成功几率丰富的开发环境 特性 历史 环境搭建安装JDK 架构 Linux内核在所有层的最底下是 Linux - 包括大约115个补丁的 Linux 3.6。它提供了基本的系统功能，比如进程管理，内存管理，设备管">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.fland5.com/images/androidHistory.png">
+<meta property="og:image" content="http://www.fland5.com/images/androidFramework.png">
+<meta property="og:image" content="http://www.fland5.com/images/androidApplicationsPars.png">
+<meta property="og:image" content="http://www.fland5.com/images/androidActivity.png">
+<meta property="og:image" content="http://www.fland5.com/images/androidContentProvider.png">
+<meta property="og:updated_time" content="2020-08-26T10:44:04.403Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安卓学习笔记1">
+<meta name="twitter:description" content="Android 是一个开源的，基于 Linux 的移动设备操作系统，如智能手机和平板电脑。 开发优势开放源代码众多开发者及强大的社区不断增长的市场国际化的 App 集成低廉的开发成本更高的成功几率丰富的开发环境 特性 历史 环境搭建安装JDK 架构 Linux内核在所有层的最底下是 Linux - 包括大约115个补丁的 Linux 3.6。它提供了基本的系统功能，比如进程管理，内存管理，设备管">
+<meta name="twitter:image" content="http://www.fland5.com/images/androidHistory.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://www.fland5.com/2020/08/26/安卓学习笔记1/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>安卓学习笔记1 | Fland's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fland's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">welcome</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+
+  
+
+  <a href="https://github.com/fland5" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.fland5.com/2020/08/26/安卓学习笔记1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fland.Ho">
+      <meta itemprop="description" content="target.">
+      <meta itemprop="image" content="/images/p.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fland's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">安卓学习笔记1
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-08-26 18:34:22 / 修改时间：18:44:04" itemprop="dateCreated datePublished" datetime="2020-08-26T18:34:22+08:00">2020-08-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/安卓/" itemprop="url" rel="index"><span itemprop="name">安卓</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2020/08/26/安卓学习笔记1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/26/安卓学习笔记1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2020/08/26/安卓学习笔记1/" class="leancloud_visitors" data-flag-title="安卓学习笔记1">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ol>
+<li>Android 是一个开源的，基于 Linux 的移动设备操作系统，如智能手机和平板电脑。</li>
+<li>开发优势<br>开放源代码<br>众多开发者及强大的社区<br>不断增长的市场<br>国际化的 App 集成<br>低廉的开发成本<br>更高的成功几率<br>丰富的开发环境</li>
+<li>特性</li>
+<li>历史<br><img src="/images/androidHistory.png" alt></li>
+<li>环境搭建<br>安装JDK</li>
+<li>架构<br><img src="/images/androidFramework.png" alt></li>
+<li>Linux内核<br>在所有层的最底下是 Linux - 包括大约115个补丁的 Linux 3.6。它提供了基本的系统功能，比如进程管理，内存管理，设备管理（如摄像头，键盘，显示器）。同时，内核处理所有 Linux 所擅长的工作，如网络和大量的设备驱动，从而避免兼容大量外围硬件接口带来的不便。</li>
+<li>程序库<br>在 Linux 内核层的上面是一系列程序库的集合，包括开源的 Web 浏览器引擎 Webkit ，知名的 libc 库，用于仓库存储和应用数据共享的 SQLite 数据库，用于播放、录制音视频的库，用于网络安全的 SSL 库等。</li>
+<li>安卓程序库<br>这个类别包括了专门为 Android 开发的基于 Java 的程序库。这个类别程序库的示例包括应用程序框架库，如用户界面构建，图形绘制和数据库访问。</li>
+<li>Android运行时<br>这是架构中的第三部分，自下而上的第二层。这个部分提供名为 Dalvik 虚拟机的关键组件，类似于 Java 虚拟机，但专门为 Android 设计和优化。<br>Dalvik 虚拟机使得可以在 Java 中使用 Linux 核心功能，如内存管理和多线程。Dalvik 虚拟机使得每一个 Android 应用程序运行在自己独立的虚拟机进程。<br>Android 运行时同时提供一系列核心的库来为 Android 应用程序开发者使用标准的 Java 语言来编写 Android 应用程序。</li>
+<li>应用框架<br>应用框架层以 Java 类的形式为应用程序提供许多高级的服务。应用程序开发者被允许在应用中使用这些服务。<br>活动管理者 - 控制应用程序生命周期和活动栈的所有方面。<br>内容提供者 - 允许应用程序之间发布和分享数据。<br>资源管理器 - 提供对非代码嵌入资源的访问，如字符串，颜色设置和用户界面布局。<br>通知管理器 - 允许应用程序显示对话框或者通知给用户。<br>视图系统 - 一个可扩展的视图集合，用于创建应用程序用户界面。</li>
+<li>应用程序<br>顶层中有所有的 Android 应用程序。你写的应用程序也将被安装在这层。这些应用程序包括通讯录，浏览器，游戏等。</li>
+<li><p>Android 应用程序四大核心组件<br>Activities：描述UI，并且处理用户与机器屏幕的交互。一个活动标识一个具有用户界面的单一屏幕。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends Activity &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>生命周期<br>运行态-&gt;暂停态-&gt;停止态</li>
+<li>7个生命周期方法在4个阶段按顺序调用<br>onResume()：Activity 开始与用户交互时调用（无论是启动还是重启一个活动，该方法总是被调用）。<br>Services：处理与应用程序关联的后台操作。服务是运行在后台，执行长时间操作的组件。</li>
+<li><p>创建</p>
+<ol>
+<li>新建类</li>
+<li>关联布局XML文件（setContentView()指定Activity用户界面布局文件）</li>
+<li>注册<br>在 AndroidManifest.xml 文件中对建立的 Activity 进行注册，即在 <application> 标签下添加 <activity> 标签。<br><action android:name="Android.intent.action.MAIN"> 表示该 Activity 作为主 Activity 出现。<br><category android:name="Android.intent.category.LAUNCHER"> 表示该 Activity 会被显示在最上层的启动列表中。 </category></action></activity></application></li>
+<li><p>启动Activity<br>Intent intent = new Intent(this,AnotherActivity.class);<br>startActivity(intent);<br>表示通过当前的 Activity 启动名为 AnotherActivity 的 Activity。</p>
+<p>Intent intent = new Intent(Intent.ACTION_SEND);<br>intent.putExtra(Intent.EXTRA_EMAIL,recipientArray);<br>startActivity(intent);<br>其中，Intent.EXTRA_EMAIL 放置的是 recipientArray 中存储的要发送的 E-mail 的目标地址。该 Intent 对象被 startActivity() 启动后，Android 系统会启动相应的 E-mail 处理应用程序，并将 Intent.EXTRA_EMAIL 中的内容放置到邮件的目标地址中。</p>
+<p>有时，当需要从启动的 Activity 获取返回值的时候，需要使用 startActivityForResult() 方法代替 startActivity() 方法，并实现 onActivityResult() 方法来获取返回值。<br>例如，在发送短信的时候，用户需要从联系人列表中获取联系人的信息，然后返回到短信发送界面，代码如下：<br>Intent intent = new Intent(Intent.ACTION_PICK,Contacts.CONTENT_URI);<br>startActivityForResult(intent,PICK_CONTACT_REQUEST);<br>当用户选择了联系人后，相关信息会被存储到 Intent 对象中，并返回到 onActivityResult() 方法中。</p>
+</li>
+<li><p>关闭Activity<br>关闭 Activity 使用 finish() 方法。关闭之前启动的其他 Activity 可以使用 finishActivity() 方法。<br>不建议使用。</p>
+</li>
+<li>Activity 数据传递<ol>
+<li>通过 Intent 传递一些简单的数据。</li>
+<li>通过 Bundle 传递相对复杂的数据或者对象。</li>
+<li>通过 startActivityForResult 可以更方便地进行来回传递，当然前两种方法也可以来回传递。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>Broadcast Receivers：处理Android操作系统和应用程序之间的通信。广播接收器简单地响应从其他应用程序或者系统发来的广播消息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class MyReceiver  extends  BroadcastReceiver &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Content Providers：处理数据和数据库管理方面的问题。<br>内容提供者组件通过请求从一个应用程序到另一个应用程序提供数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class MyContentProvider extends  ContentProvider &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ol start="14">
+<li>附件组件<br>有一些附件的组件用于以上提到的实体、他们之间逻辑、及他们之间连线的构造。<br>Fragments: 代表活动中的一个行为或者一部分用户界面。<br>Views: 绘制在屏幕上的UI元素，包括按钮，列表等。<br>Layouts：控制屏幕格式，展示视图外观的View的继承。<br>Intents：组件间的消息连线。<br>Resources：外部元素，例如字符串资源、常量资源及图片资源等。<br>Manifest：应用程序的配置文件。</li>
+<li>Hello World</li>
+<li>Android应用程序剖析<br><img src="/images/androidApplicationsPars.png" alt><ol>
+<li>src:包含项目中所有的.java源文件，默认情况下，它包括一个 MainActivity.java源文件对应的活动类，当应用程序通过应用图标启动时，将运行它。</li>
+<li>gen:这包含由编译器生成的.R文件，引用了所有项目中的资源。该文件不能被修改。</li>
+<li>bin:这个文件夹包含Android由APT构建的.apk包文件，以及运行Android应用程序所需要的其他所有东西。</li>
+<li>res/drawable-hdpi:这个目录下包括所有的为高密度屏幕设计所需的drawable对象。</li>
+<li>res/layout:这个目录存放用于定义用户界面的文件。</li>
+<li>res/values:这个目录存放各种各样的包含一系列资源的XML文件，比如字符串和颜色的定义。</li>
+<li>AndroidManifest.xml:这个是应用程序的清单文件，描述了应用程序的基础特性，定义它的各种组件。</li>
+</ol>
+</li>
+<li>资源(Resources)访问<br>res/<br>你需要将每种资源放置在项目中 res/ 目录的特定子目录下。<br>res/ 目录里面支持的资源：<br>anim/：定义动画属性的XML文件。它们被保存在res/anim/文件夹下，通过R.anim类访问<br>color/：定义颜色状态列表的XML文件。它们被保存在res/color/文件夹下，通过R.color类访问<br>drawable/：图片文件，如.png,.jpg,.gif或者XML文件，被编译为位图、状态列表、形状、动画图片。它们被保存在res/drawable/文件夹下，通过R.drawable类访问<br>layout/：定义用户界面布局的XML文件。它们被保存在res/layout/文件夹下，通过R.layout类访问<br>menu/：定义应用程序菜单的XML文件，如选项菜单，上下文菜单，子菜单等。它们被保存在res/menu/文件夹下，通过R.menu类访问<br>raw/：任意的文件以它们的原始形式保存。需要根据名为R.raw.filename的资源ID，通过调用Resource.openRawResource()来打开raw文件<br>values/：包含简单值(如字符串，整数，颜色等)的XML文件。这里有一些文件夹下的资源命名规范。arrays.xml代表数组资源，通过R.array类访问；integers.xml代表整数资源，通过R.integer类访问；bools.xml代表布尔值资源，通过R.bool类访问；colors.xml代表颜色资源，通过R.color类访问；dimens.xml代表维度值，通过R.dimen类访问；strings.xml代表字符串资源，通过R.string类访问；styles.xml代表样式资源，通过R.style类访问<br>xml/：可以通过调用Resources.getXML()来在运行时读取任意的XML文件。可以在这里保存运行时使用的各种配置文件</li>
+<li>替代资源<br>在res/ 下创建一个新的目录，以 &lt;resource_name&gt;_&lt;config_qualifier&gt; 的方式命名。这里的 resources_name 是上表中提到的任意资源，如布局、图片等。 qualifier 将确定个性的配置使用哪些资源。你可以查看官方文档来了解不同类型资源的一个完整 qualifier 列表。<br>在这个目录中保存响应的替代资源。这些资源文件必须与下面例子中展示的默认资源文件名一致，然而这些文件将确定的内容进行替代。例如：虽然图片的文件名一样，但是高分辨率的屏幕，图片的分辨率也会高。</li>
+<li>访问资源<br>在应用程序开发中，需要访问定义好的资源，不论是通过代码还是通过 XML 文件。</li>
+<li>在代码访问资源<br>当 Android 应用程序被编译，生成一个 R 类，其中包含了所有 res/ 目录下资源的 ID。你可以使用 R 类，通过子类+资源名或者直接使用资源 ID 来访问资源。</li>
+<li>活动<br><img src="/images/androidActivity.png" alt><br>onCreate()：这是第一个回调，在活动第一次创建时调用<br>onStart()：这个回调在活动为用户可见时被调用<br>onResume()：这个回调在应用程序与用户开始可交互的时候调用<br>onPause()：被暂停的活动无法接受用户输入，不能执行任何代码。当前活动将要被暂停，上一个活动将要被恢复时调用<br>onStop()：当活动不在可见时调用<br>onDestroy()：当活动被系统销毁之前调用<br>onRestart()：当活动被停止以后重新打开时调用</li>
+</ol>
+<p>活动类从项目的res/layout中的XML文件加载所有的UI组件。<br>setContentView(R.layout.activity_main);</p>
+<p>一个应用程序可以有1个或多个活动，而没有任何限制。每个为应用程序所定义的活动都需要在AndroidManifest.xml中声明。应用的主要活动需要在清单中声明，且意图过滤器标签中需要包含 MAIN 动作和 LAUNCHER 类别。</p>
+<ol start="22">
+<li>Service<br>服务是一个后台运行的组件，执行长时间运行且不需要用户交互的任务。即使应用被销毁也依然可以工作。服务基本上包含两种状态 -<br>Started Android的应用程序组件，如活动，通过startService()启动了服务，则服务是Started状态。一旦启动，服务可以在后台无限期运行，即使启动它的组件已经被销毁。<br>Bound   当Android的应用程序组件通过bindService()绑定了服务，则服务是Bound状态。Bound状态的服务提供了一个客户服务器接口来允许组件与服务进行交互，如发送请求，获取结果，甚至通过IPC来进行跨进程通信。</li>
+</ol>
+<p>onStartCommand()：其他组件(如活动)通过调用startService()来请求启动服务时，系统调用该方法。如果你实现该方法，你有责任在工作完成时通过stopSelf()或者stopService()方法来停止服务。<br>onBind  当其他组件想要通过bindService()来绑定服务时，系统调用该方法。如果你实现该方法，你需要返回IBinder对象来提供一个接口，以便客户来与服务通信。你必须实现该方法，如果你不允许绑定，则直接返回null。<br>onUnbind()：当客户中断所有服务发布的特殊接口时，系统调用该方法。<br>onRebind()：当新的客户端与服务连接，且此前它已经通过onUnbind(Intent)通知断开连接时，系统调用该方法。<br>onCreate()：当服务通过onStartCommand()和onBind()被第一次创建的时候，系统调用该方法。该调用要求执行一次性安装。<br>onDestroy()：当服务不再有用或者被销毁时，系统调用该方法。你的服务需要实现该方法来清理任何资源，如线程，已注册的监听器，接收器等。</p>
+<ol start="23">
+<li><p>广播接收器(Broadcast Receivers)<br>广播接收器用于响应来自其他应用程序或者系统的广播消息。<br>创建广播接收器<br>注册广播接收器</p>
+</li>
+<li><p>创建广播接收器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class MyReceiver extends BroadcastReceiver &#123;</span><br><span class="line">   @Override</span><br><span class="line">   public void onReceive(Context context, Intent intent) &#123;</span><br><span class="line">      Toast.makeText(context, &quot;Intent Detected.&quot;, Toast.LENGTH_LONG).show();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注册广播接收器<br>应用程序通过在AndroidManifest.xml中注册广播接收器来监听制定的广播意图。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">假设我们将要注册MyReceiver来监听系统产生的ACTION_BOOT_COMPLETED事件。该事件由Android系统的启动进程完成时发出。</span><br><span class="line">&lt;application</span><br><span class="line">   android:icon=&quot;@drawable/ic_launcher&quot;</span><br><span class="line">   android:label=&quot;@string/app_name&quot;</span><br><span class="line">   android:theme=&quot;@style/AppTheme&quot; &gt;</span><br><span class="line">   &lt;receiver android:name=&quot;MyReceiver&quot;&gt;</span><br><span class="line"></span><br><span class="line">      &lt;intent-filter&gt;</span><br><span class="line">         &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;&gt;</span><br><span class="line">         &lt;/action&gt;</span><br><span class="line">      &lt;/intent-filter&gt;</span><br><span class="line"></span><br><span class="line">   &lt;/receiver&gt;</span><br><span class="line">&lt;/application&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>重要事件：<br>android.intent.action.BATTERY_CHANGED：持久的广播，包含电池的充电状态，级别和其他信息。<br>android.intent.action.BATTERY_LOW：标识设备的低电量条件。<br>android.intent.action.BATTERY_OKAY：标识电池在电量低之后，现在已经好了。<br>android.intent.action.BOOT_COMPLETED：在系统完成启动后广播一次。<br>android.intent.action.BUG_REPORT：显示报告bug的活动。<br>android.intent.action.CALL：执行呼叫数据指定的某人。<br>android.intent.action.CALL_BUTTON：用户点击”呼叫”按钮打开拨号器或者其他拨号的合适界面。<br>android.intent.action.DATE_CHANGED：日期发生改变。<br>android.intent.action.REBOOT：设备重启。</p>
+<ol start="26">
+<li><p>广播自定义意图<br>如果你想要应用程序中生成并发送自定义意图，你需要在活动类中通过sendBroadcast()来创建并发送这些意图。<br>com.runoob.CUSTOM_INTENT</p>
+</li>
+<li><p>内容提供者(Content Provider)<br>内容提供者组件通过请求从一个应用程序向其他的应用程序提供数据。这些请求由类 ContentResolver 的方法来处理。内容提供者可以使用不同的方式来存储数据。数据可以被存放在数据库，文件，甚至是网络。<br><img src="/images/androidContentProvider.png" alt></p>
+</li>
+<li><p>碎片(Fragment)<br>碎片是活动的一部分，使得活动更加的模块化设计。我们可以认为碎片是一种子活动。</p>
+</li>
+<li><p>碎片类型</p>
+</li>
+</ol>
+<ul>
+<li>单帧碎片 - 单帧碎片被如移动电话之类的手持设备使用。一个碎片如同一个视频一样显示。</li>
+<li>列表碎片 - 包含有特殊列表视图的碎片被叫做列表碎片。</li>
+<li>碎片过渡 - 与碎片事务一起使用。可以从一个碎片移动到另外一个碎片。</li>
+</ul>
+<ol start="30">
+<li>意图(Intent)和过滤器(Filter)<br>Android意图是一个要执行的操作的抽象描述。</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/安卓/" rel="tag"># 安卓</a>
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/30/Java的锁分类/" rel="next" title="Java的锁分类">
+                <i class="fa fa-chevron-left"></i> Java的锁分类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/p.jpg" alt="Fland.Ho">
+            
+              <p class="site-author-name" itemprop="name">Fland.Ho</p>
+              <div class="site-description motion-element" itemprop="description">target.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">78</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">119</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fland.Ho</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+  
+
+<script src="https://cdn.bootcdn.net/ajax/libs/valine/1.4.14/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'PhTCuXxsfqCoCIbUKpm7y7vt-gzGzoHsz',
+    appKey: '4hCT0uFrIacWy45eyFVEykyo',
+    placeholder: '敬请留言……',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

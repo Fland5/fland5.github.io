@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN,en,default">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon48.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/favicon48.png?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="LinearLayout(线性布局)安卓6大布局LinearLayout(线性布局)，RelativeLayout(相对布局)，TableLayout(表格布局) FrameLayout(单帧布局)，AbsoluteLayout(绝对布局)，GridLayout(网格布局)LinearLayout(线性布局)   weight(权重)属性详解 最简用法12345678910111213141516">
+<meta name="keywords" content="安卓,笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓学习笔记3">
+<meta property="og:url" content="http://www.fland5.com/2020/08/26/安卓学习笔记3/index.html">
+<meta property="og:site_name" content="Fland&#39;s blog">
+<meta property="og:description" content="LinearLayout(线性布局)安卓6大布局LinearLayout(线性布局)，RelativeLayout(相对布局)，TableLayout(表格布局) FrameLayout(单帧布局)，AbsoluteLayout(绝对布局)，GridLayout(网格布局)LinearLayout(线性布局)   weight(权重)属性详解 最简用法12345678910111213141516">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.fland5.com/images/linearLayout.png">
+<meta property="og:image" content="http://www.fland5.com/images/linearLayoutWeightInstance.png">
+<meta property="og:updated_time" content="2020-08-26T10:56:15.891Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安卓学习笔记3">
+<meta name="twitter:description" content="LinearLayout(线性布局)安卓6大布局LinearLayout(线性布局)，RelativeLayout(相对布局)，TableLayout(表格布局) FrameLayout(单帧布局)，AbsoluteLayout(绝对布局)，GridLayout(网格布局)LinearLayout(线性布局)   weight(权重)属性详解 最简用法12345678910111213141516">
+<meta name="twitter:image" content="http://www.fland5.com/images/linearLayout.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://www.fland5.com/2020/08/26/安卓学习笔记3/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>安卓学习笔记3 | Fland's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fland's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">welcome</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+
+  
+
+  <a href="https://github.com/fland5" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.fland5.com/2020/08/26/安卓学习笔记3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fland.Ho">
+      <meta itemprop="description" content="target.">
+      <meta itemprop="image" content="/images/p.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fland's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">安卓学习笔记3
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-08-26 18:53:06 / 修改时间：18:56:15" itemprop="dateCreated datePublished" datetime="2020-08-26T18:53:06+08:00">2020-08-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/安卓/" itemprop="url" rel="index"><span itemprop="name">安卓</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2020/08/26/安卓学习笔记3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/26/安卓学习笔记3/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2020/08/26/安卓学习笔记3/" class="leancloud_visitors" data-flag-title="安卓学习笔记3">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong><em>LinearLayout(线性布局)</em></strong><br>安卓6大布局<br>LinearLayout(线性布局)，RelativeLayout(相对布局)，TableLayout(表格布局) FrameLayout(单帧布局)，AbsoluteLayout(绝对布局)，GridLayout(网格布局)<br>LinearLayout(线性布局)</p>
+<ol>
+<li><img src="/images/linearLayout.png" alt></li>
+<li>weight(权重)属性详解<ol>
+<li>最简用法<br><img src="/images/linearLayoutWeightInstance.png" alt><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    </span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;    </span><br><span class="line">    android:id=&quot;@+id/LinearLayout1&quot;    </span><br><span class="line">    android:layout_width=&quot;match_parent&quot;    </span><br><span class="line">    android:layout_height=&quot;match_parent&quot;    </span><br><span class="line">    android:orientation=&quot;horizontal&quot;&gt;   </span><br><span class="line">        </span><br><span class="line">    &lt;LinearLayout    </span><br><span class="line">        android:layout_width=&quot;0dp&quot;    </span><br><span class="line">        android:layout_height=&quot;fill_parent&quot;    </span><br><span class="line">        android:background=&quot;#ADFF2F&quot;     </span><br><span class="line">        android:layout_weight=&quot;1&quot;/&gt;    </span><br><span class="line">       </span><br><span class="line">        </span><br><span class="line">    &lt;LinearLayout    </span><br><span class="line">        android:layout_width=&quot;0dp&quot;    </span><br><span class="line">        android:layout_height=&quot;fill_parent&quot;    </span><br><span class="line">        android:background=&quot;#DA70D6&quot;     </span><br><span class="line">        android:layout_weight=&quot;2&quot;/&gt;    </span><br><span class="line">        </span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<p>android:orientation=”horizontal” 属性将布局设置为横向线性排<br>android:orientation=”vertical” 属性将布局设置为纵向线性排列。<br>android:layout_weight 属性设置每个组件在布局中所占的比重相同</p>
+<pre><code>2. weight属性详解
+1)wrap_content比较简单,直接就按比例的了
+2)match_parent(fill_parent):这个则需要计算了
+3)Java代码中设置weight属性
+</code></pre><ol start="3">
+<li>为LinearLayout设置分割线<br> ①直接在布局中添加一个view<br> ②第二种则是使用LinearLayout的一个divider属性<br><strong><em>RelativeLayout(相对布局)</em></strong><br>RelativeLayout 又称相对布局。从名称上可以看出，这种布局方式是以一种让组件以相对于容器或者相对于容器中的另一个组件的相对位置进行放置的布局方式。<br>尽量使用RelativeLayout + LinearLayout的weight属性搭配使用</li>
+<li>父容器定位属性示意图</li>
+<li>根据兄弟组件定位<br>梅花布局</li>
+<li>margin与padding的区别<br>首先margin代表的是偏移,比如marginleft = “5dp”表示组件离容器左边缘偏移5dp; 而padding代表的则是填充,而填充的对象针对的是组件中的元素,比如TextView中的文字 比如为TextView设置paddingleft = “5dp”,则是在组件里的元素的左边填充5dp的空间！</li>
+<li>margin可以设置为负数<br><strong><em>TableLayout(表格布局)</em></strong><br>暂略<br><strong><em>FrameLayout(帧布局)</em></strong><br>android:layout_width=”wrap_content”<br>android:layout_height=”wrap_content”<br>表明 FrameLayout 布局覆盖了整个屏幕空间。</li>
+</ol>
+<p>显示布局在屏幕下方：<br>android:layout_gravity=”bottom”<br><strong><em>AbsoluteLayout(绝对布局)</em></strong><br>AbsoluteLayout 又称绝对布局，放入该布局的组件需要通过 android:layout_x 和 android:layout_y 两个属性指定其准确的坐标值，并显示在屏幕上。<br>理论上，AbsoluteLayout 布局可用以完成任何的布局设计，灵活性很大，但是在实际的工程应用中不提倡使用这种布局。因为使用这种布局不但需要精确计算每个组件的大小，增大运算量，而且当应用程序在不同屏幕尺寸的手机上运行时会产生不同效果。</p>
+<p><strong><em>WebView</em></strong><br>WebView 组件是 AbsoluteLayout 的子类，用于显示 Web 页面。借助于 WebView，可以方便地开发自己的网络浏览器。</p>
+<p><strong><em>Android创建Widget组件实例详解</em></strong><br>android.widget<br><strong><em>Button(按钮)与ImageButton(图像按钮)</em></strong></p>
+<ol>
+<li>StateListDrawable<br>StateListDrawable是Drawable资源的一种，可以根据不同的状态，设置不同的图片效果，关键节点 &lt; selector &gt;，我们只需要将Button的background属性设置为该drawable资源即可轻松实现，按下 按钮时不同的按钮颜色或背景！</li>
+</ol>
+<ul>
+<li>drawable:引用的Drawable位图,我们可以把他放到最前面,就表示组件的正常状态~</li>
+<li>state_focused:是否获得焦点</li>
+<li>state_window_focused:是否获得窗口焦点</li>
+<li>state_enabled:控件是否可用</li>
+<li>state_checkable:控件可否被勾选,eg:checkbox</li>
+<li>state_checked:控件是否被勾选</li>
+<li>state_selected:控件是否被选择,针对有滚轮的情况</li>
+<li>state_pressed:控件是否被按下</li>
+<li>state_active:控件是否处于活动状态,eg:slidingTab</li>
+<li>state_single:控件包含多个子控件时,确定是否只显示一个子控件</li>
+<li>state_first:控件包含多个子控件时,确定第一个子控件是否处于显示状态</li>
+<li>state_middle:控件包含多个子控件时,确定中间一个子控件是否处于显示状态</li>
+<li>state_last:控件包含多个子控件时,确定最后一个子控件是否处于显示状态</li>
+</ul>
+<ol start="2">
+<li>使用颜色值绘制圆角按钮</li>
+<li>实现Material Design水波效果的Button<br><strong><em>多选按钮控件</em></strong><br>CompoundButton.OnCheckedChangedListener 接口可用于对 CheckBox 的状态进行监听。当 CheckBox 的状态在未被选中和被选中之间变化时，该接口的 onCheckedChanged() 方法会被系统调用。CheckBox 通过 setOnCheckedChangeListener() 方法将该接口对象设置为自己的监听器。<br><strong><em>Android RadioGroup：单选按钮控件</em></strong><br>RadioGroup 为单项选择按钮组，其中可以包含多个 RadioButton，即单选按钮，它们共同为用户提供一种多选一的选择方式。<br>其事件监听接口使用的是 RadioGroup.OnCheckedChangeListener()，使用 setOnCheckedChangeListener() 方法将监听器设置到单选按钮上。</li>
+</ol>
+<p>MainActivity中启动RadioGroupActivity:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Button radiotn = (Button)this.findViewById(R.id.button3);</span><br><span class="line">radiotn.setOnClickListener(new View.OnClickListener()&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onClick(View v)&#123;</span><br><span class="line">        Intent intent = new Intent(MainActivity.this,RadioGroupActivity.class);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>TextView(文本框)详解</em></strong><br>文本框（TextView）是用于在界面上显示文字的组件，其显示的文本不可被用户直接编辑。</p>
+<p>dp(dip): device independent pixels(设备独立像素). 该尺寸使用 160dp 的屏幕作为参考，然后用该屏幕映射到实际屏幕，在不同分辨率的屏幕上会有相应的缩放效果以适用于不同分辨率的屏幕。若用 px 的话，320px 占满 HVGA 的宽度，到 WVGA 上就只能占一半不到的屏幕了，那一定不是你想要的。<br>px: pixels(像素). 不同设备显示效果相同，一般我们HVGA代表320x480像素，这个用的比较多。<br>pt: point，是一个标准的长度单位，1pt＝1/72英寸，用于印刷业，非常简单易用；<br>sp: scaled pixels(放大像素). 主要用于字体显示best for textsize。</p>
+<ol>
+<li>基础属性详解：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    tools:context=&quot;.MainActivity&quot;</span><br><span class="line">    android:gravity=&quot;center&quot;</span><br><span class="line">    android:background=&quot;#8fffad&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id=&quot;@+id/txtOne&quot;</span><br><span class="line">        android:layout_width=&quot;200dp&quot;</span><br><span class="line">        android:layout_height=&quot;200dp&quot;</span><br><span class="line">        android:gravity=&quot;center&quot;</span><br><span class="line">        android:text=&quot;TextView(显示框)&quot;</span><br><span class="line">        android:textColor=&quot;#EA5246&quot;</span><br><span class="line">        android:textStyle=&quot;bold|italic&quot;</span><br><span class="line">        android:background=&quot;#000000&quot;</span><br><span class="line">        android:textSize=&quot;18sp&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>id：为TextView设置一个组件id，根据id，我们可以在Java代码中通过findViewById()的方法获取到该对象，然后进行相关属性的设置，又或者使用RelativeLayout时，参考组件用的也是id。</li>
+<li>layout_width：组件的宽度，一般写：<strong>wrap_content</strong>或者<strong>match_parent(fill_parent)</strong>，前者是控件显示的内容多大，控件就多大，而后者会填满该控件所在的父容器；当然也可以设置成特定的大小，比如我这里为了显示效果，设置成了200dp。</li>
+<li>layout_height：组件的高度，内容同上。</li>
+<li>gravity：设置控件中内容的对齐方向，TextView中是文字，ImageView中是图片等等。</li>
+<li>text：设置显示的文本内容，一般我们是把字符串写到string.xml文件中，然后通过@String/xxx取得对应的字符串内容的，这里为了方便我直接就写到””里，不建议这样写！！！</li>
+<li>textColor：设置字体颜色，同上，通过colors.xml资源来引用，别直接这样写！</li>
+<li>textStyle：设置字体风格，三个可选值：<strong>normal</strong>(无效果)，<strong>bold</strong>(加粗)，<strong>italic</strong>(斜体)</li>
+<li>textSize：字体大小，单位一般是用sp！</li>
+<li>background：控件的背景颜色，可以理解为填充整个控件的颜色，可以是图片哦！</li>
+</ul>
+<ol start="2">
+<li><p>带阴影的TextView</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_centerInParent=&quot;true&quot;</span><br><span class="line">        android:shadowColor=&quot;#F9F900&quot;</span><br><span class="line">        android:shadowDx=&quot;10.0&quot;</span><br><span class="line">        android:shadowDy=&quot;10.0&quot;</span><br><span class="line">        android:shadowRadius=&quot;3.0&quot;</span><br><span class="line">        android:text=&quot;带阴影的TextView&quot;</span><br><span class="line">        android:textColor=&quot;#4A4AFF&quot;</span><br><span class="line">        android:textSize=&quot;30sp&quot; /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带边框的TextView<br>实现原理很简单，自行编写一个ShapeDrawable的资源文件！然后TextView将blackgroung 设置为这个drawable资源即可！</p>
+</li>
+<li>带图片(drawableXxx)的TextView</li>
+<li>使用autoLink属性识别链接类型<br>当文字中出现了URL，E-Mail，电话号码，地图的时候，我们可以通过设置autoLink属性；当我们点击 文字中对应部分的文字，即可跳转至某默认APP，比如一串号码，点击后跳转至拨号界面！</li>
+<li>TextView玩转HTML</li>
+<li>SpannableString&amp;SpannableStringBuilder定制文本<br>除了上面的HTML可以定制我们TextView的样式外，还可以使用SpannableString和SpannableStringBuilder来完成，两者区别：前者针对的是不可变文本，而后者则是针对可变文本。</li>
+<li>设置TextView字间距和行间距</li>
+<li>自动换行<br><strong><em>EditText(输入框)详解</em></strong><br>编辑框（EditText）是 TextView 的子类，在 TextView 的基础上增加了文本编辑功能，用于处理用户输入，例如登录框等，是非常常用的组件。<br>EditText(输入框)； 和TextView非常类似，最大的区别是：EditText可以接受用户输入！</li>
+<li>设置默认提示文本</li>
+<li>获得焦点后全选组件内所有文本内容</li>
+<li>获得焦点后全选组件内所有文本内容</li>
+<li>限制EditText输入类型</li>
+<li>设置最小行，最多行，单行，多行，自动换行</li>
+<li>设置文字间隔，设置英文字母大写类型</li>
+<li>控制EditText四周的间隔距离与内部文字与边框间的距离</li>
+<li>设置EditText获得焦点，同时弹出小键盘</li>
+<li>EditText光标位置的控制<br><strong><em>Android Spinner：下拉列表控件</em></strong><br>SpinnerActivity 通过 5 个步骤将 Spinner 初始化并进行事件处理，分别为：</li>
+</ol>
+<ul>
+<li>定义下拉列表的列表项内容 List<string>。</string></li>
+<li>为下拉列表 Spinner 定义一个适配器 ArrayAdapter<string> ，并与列表项内容相关联。</string></li>
+<li>使用 ArrayAdapter.setDropDownViewResource() 设置 Spinner 下拉列表在打开时的下拉菜单样式。</li>
+<li>使用 Spinner. setAdapter() 将适配器数据与 Spinner 关联起来。</li>
+<li>为 Spinner 添加事件监听器，进行事件处理。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">    &lt;string-array name=&quot;city&quot;&gt;</span><br><span class="line">        &lt;item&gt;A型&lt;/item&gt;</span><br><span class="line">        &lt;item&gt;B型&lt;/item&gt;</span><br><span class="line">        &lt;item&gt;AB型&lt;/item&gt;</span><br><span class="line">        &lt;item&gt;O型&lt;/item&gt;</span><br><span class="line">        &lt;item&gt;其他&lt;/item&gt;</span><br><span class="line">    &lt;/string-array&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p><code>R.array.city</code><br><strong><em>Android AutoCompleteTextView：自动完成文本框控件</em></strong><br>AutoCompleteTextView<br>AutoCompleteTextViewActivity 中为可自动补全的内容建立对应字符串数组 autotext，将该数组关联到 ArrayAdapter 中，然后将 ArrayAdapter 与 AutoCompleteTextView 相关联，进而实现自动完成文本功能。</p>
+<p>AutoCompleteTextView 提供一系列属性对显示效果进行设置，分别说明如下。<br>completionThreshold：它的值决定了你在 AutoCompleteTextView 中至少输入几个字符，才会具有自动提示的功能。另外，默认最多提示 20 条。<br>dropDownAnchor：它的值是一个 View 的 ID，指定后，AutoCompleteTextView 会在这个 View 下弹出自动提示。<br>dropDownSelector：应该是设置自动提示的背景色之类的，没有尝试过，有待进一步考证。<br>dropDownWidth：设置自动提示列表的宽度。<br><strong><em>Android DatePicker和TimePicker：时间日期选择器</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">        datepicker = (DatePicker) findViewById(R.id.datepicker);</span><br><span class="line">        timepicker = (TimePicker) findViewById(R.id.timepicker);</span><br><span class="line">        </span><br><span class="line">Android ProgressBar：进度条控件</span><br><span class="line">Android SDK 提供两种样式的进度条，一种是圆形的进度条，另一种是水平进度条。其中圆形进度条分大、中、小三种。</span><br></pre></td></tr></table></figure></p>
+<pre><code>progressBar = (ProgressBar) findViewById(R.id.progressBar4);
+/* 获取最大值*/
+progressBarMax = progressBar.getMax();
+/* 匿名内部类启动实现效果的线程*/
+new Thread(new Runnable() {
+    @Override
+    public void run() {
+        while (i++ &lt; progressBarMax) {
+            //设置滚动条当前状态值
+            progressBar.setProgress(i);
+            try {
+                Thread.sleep(15);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}).start();
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">***Android ScrollView：滚动视图***</span><br><span class="line">当 Activity 提供的用户界面上有很多内容，以至于当前手机屏幕不能完全显示全部内容时，就需要滚动视图来帮助浏览全部的内容。</span><br></pre></td></tr></table></figure>
+<p><scrollview xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent"><br>    <linearlayout>…</linearlayout><br></scrollview><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">***Android SeekBar：拖动条控件***</span><br><span class="line">SeekBar 是水平进度条 ProgressBar 的间接子类，相当于一个可以拖动的水平进度条。下面仍以一个简单的实例讲解 SeekBar 组件的使用方法。</span><br></pre></td></tr></table></figure></p>
+<pre><code>textView = (TextView) findViewById(R.id.textView1);
+seekBar = (SeekBar) findViewById(R.id.seekBar1);
+/* 设置SeekBar 监听setOnSeekBarChangeListener */
+seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    /*拖动条停止拖动时调用 */
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        Log.i(&quot;SeekBarActivity&quot;, &quot;拖动停止&quot;);
+    }
+
+    /*拖动条开始拖动时调用*/
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        Log.i(&quot;SeekBarActivity&quot;, &quot;开始拖动&quot;);
+    }
+
+    /* 拖动条进度改变时调用*/
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        textView.setText(&quot;当前进度为：&quot; + progress + &quot;%&quot;);
+    }
+});
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">SeekBar 的事件处理接口为 OnSeekBarChangeListener，该监听器提供对三种事件的监听，分别为当 SeekBar 的拖动条开始被拖动时、拖动条拖动停止时和拖动条的位置发生改变时。</span><br><span class="line">***Android RatingBar：评价条控件***</span><br><span class="line">RatingBar 是 SeekBar 和 ProgressBar 的扩展，是 ProgressBar 的间接子类，可以使用 ProgressBar 相关的属性。</span><br><span class="line">RatingBar 有三种风格，分别为默认风格（ratingBarStyle）、小风格（ratingBarStyleSmall）和大风格（ratingBarStyleIndicator ）。其中，默认风格的 RatingBar 是我们通常使用的，可以进行交互，而其他两种不能进行交互。</span><br><span class="line"></span><br><span class="line">RatingBar属性</span><br><span class="line">android:numStars=&quot;5&quot; 用于设置 RatingBar 显示的星星数量为 5 个。</span><br><span class="line">android:stepSize=&quot;0.5&quot; 用于设置 RatingBar 的最小变化单位为半个星星。</span><br><span class="line">android:rating =&quot;3&quot; 表示 RatingBar 在初始状态下被选中的星星数量为 3 个。</span><br><span class="line"></span><br><span class="line">RatingBarActivity 为 RatingBar 对象设置了 OnRatingBarChangeListener 监听器，当用户单击 RatingBar 引起被选中星星数量的变化时，该接口会监测到该事件，并且调用 onRatingChanged() 方法，更新 TextView 显示的内容。</span><br><span class="line"></span><br><span class="line">onRatingChanged() 的三个参数所对应的含义如下。</span><br><span class="line">ratingBar：多个 RatingBar 可以同时指定同一个 RatingBar 监听器。该参数就是当前触发 RatingBar 监听器的那个 RatingBar 对象。</span><br><span class="line">rating：当前评级分数。取值范围从 0 到 RatingBar 的总星星数。</span><br><span class="line">fromUser：如果触发监听器的是用户触屏单击或轨迹球左右移动，则为 true。</span><br><span class="line">***Android ImageView和ImageButton：图片视图和图片按钮***</span><br><span class="line">ImageView 是用于显示图片的组件，在很多场合都有比较普遍的使用。</span><br><span class="line">ImageView 可以显示任意图像，加载各种来源的图片（如资源或图片库）。它还可以负责计算图片的尺寸，以便在任意的布局中使用，并且可以提供缩放或者着色等选项供开发者使用。</span><br><span class="line">ImageButton 是 ImageView 的子类，相当于一个表明是图片而不是文字的 Button。其使用方法和 Button 完全相同。</span><br></pre></td></tr></table></figure>
+<pre><code>imgbtn = (ImageButton) this.findViewById(R.id.imageButton1);
+imgview = (ImageView) this.findViewById(R.id.imageView1);
+imgbtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        LayoutParams params = imgview.getLayoutParams();
+        params.height += 3;
+        params.width += 3;
+        imgview.setLayoutParams(params);
+    }
+});
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ImageButtonActivity 为 ImageButton 添加了单击监听器，对用户单击 imgbtn 的事件进行了处理。用户每次单击图片按钮，都把 ImageView 组件的宽和高增大 3。随着用户的不断单击，ImageView 中显示的图片越来越大，显示了 ImageView 组件对图片的缩放功能。</span><br><span class="line">***Android ImageSwitcher和Gallery：图片切换器和图库***</span><br><span class="line">在使用 Android 手机设置壁纸的时候，会看到屏幕底部有很多可以滚动的图片，当单击某一图片时，在其上面的空间会显示当前选中的图片，此时我们用到的就是 Gallery（图库）和 ImageSwitcher（图片切换器）。</span><br></pre></td></tr></table></figure>
+<p>该布局文件使用的是相对布局。<br>1）通过 android:layout_alignParentTop=”true” 属性将 ImageSwitcher 放置于视图的顶端，其顶部与其父组件的顶部对齐。<br>2）通过 android: layout_alignParentLeft=”true” 属性使 ImageSwitcher 的左边缘与其父组件的左边缘对齐。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Gallery 通过 setAdapter（imageAdapter）方法将组件和要显示的图片关联起来。</span><br><span class="line">在 ImageAdapter 类中有两个方法值得我们注意：</span><br><span class="line">1）getCount() 方法：用于返回图片的总数，通常使用获取存放图片数组长度的方法获取图片总数，也可以规定具体的返回数，但不能超过实际图片数量。</span><br><span class="line">2）getView() 方法：是当 Gallery 需要显示某一个图像时，将当前图片的索引，也就是 position 的值传入，从 resids 数组中获得相应的图片的 ID。</span><br><span class="line">***Android GridView：网格视图***</span><br><span class="line">在主程序 GridViewActivity 中，为 GridView 设置了一个数据适配器，并处理了 GridView 的单击事件。适配器继承自 BaseAdapter 类，与图片切换器和图库中用到的适配器高度相似。</span><br><span class="line">***Android Tab：面板标签控件***</span><br><span class="line">要使用 Tab 必然涉及它的容器 TabHost，TabHost 包括 TabWigget 和 FrameLayout 两部分。TabWidget 就是每个 Tab 的标签，FrameLayout 是 Tab 的内容。</span><br><span class="line">在 FrameLayout 中我们放置了三个 TextView 组件，分别对应三个 Tab 所显示的内容，当切换不同的 Tab 时会自动显示不同的 TextView 内容。</span><br><span class="line">在主程序 TabActivity 的 OnCreate() 方法中，首先获得 TabHost 的对象，并调用 setup() 方法进行初始化，然后通过 TabHost.TabSpec 增加 Tab 页，通过 setContent() 增加当前 Tab 页显示的内容，通过 setIndicator 增加页的标签，最后设定当前要显示的 Tab 页。</span><br><span class="line">除了使用上述方法设置 Tab 页面的显示内容外，还可以使用 setContent（Intent）方法启动某个 Activity，并将该 Activity 的视图作为 Tab 页面的内容。</span><br><span class="line">***Android菜单：选项菜单+上下文菜单+子菜单***</span><br><span class="line">1）Options Menu：选项菜单。</span><br><span class="line">2）Context Menu：上下文菜单。</span><br><span class="line">3）Submenu：子菜单。</span><br></pre></td></tr></table></figure></p>
+<p>public boolean onCreateOptionsMenu(Menu menu) {<br>    MenuInflater inflater = getMenuInflater();<br>    inflater.inflate(R.menu.mymenu, menu);<br>    return true;<br>}<br><code>`</code><br>这几行代码通过 MenuInflater.Inflate() 方法将 menu.xml 中定义的菜单项内容填充到了菜单中。</p>
+<p>在 OnCreatOptionsMenu() 方法中创建菜单时也支持 Menu.add() 方法，也能达到同样目的。例如：<br><code>menu.add(0,itemid,0,item_title);</code><br>表示在菜单中添加一个菜单项，该菜单项的 ID 为 itemid，菜单项显示的内容为 item_title 的内容。但是不鼓励使用这种方式，而应该使用 XML 文件来创建菜单。</p>
+<p>上下文菜单悬浮于主界面之上，不支持图标显示和快捷键。其使用方法和选项菜单高度相似，只不过创建上下文菜单的方法为 onCreateContextMenu()，响应上下文菜单单击事件的方法为 onContextItemSelected()。<br>为 TextView 对象注册上下文菜单的代码如下：<br>textview = (TextView)findViewById(R.id.textview1);<br>registerForContextMenu(textview);</p>
+<p>SubMenu<br>子菜单可以被添加到其他菜单上，但是子菜单本身不能再有子菜单。<br><strong><em>Android Bitmap（点阵图像、绘制图像）</em></strong><br>使用 BitmapFactory 从资源中载入图片，并获取图片的宽和高，之后使用 Matrix 类对图片进行缩放和旋转操作。<br><strong><em>Android对话框（AlertDialog+ProgressDialog）</em></strong><br>Dialog 类是对话框的基类。对话框虽然可以在界面上显示，但是 Dialog 不是 View 类的子类，而是直接继承自 java.lang.Object 类。<br>Dialog 对象也有自己的生命周期，其生命周期由创建它的 Activity 进行管理。<br>Activity 可以调用 showDialog(int id) 将不同 ID 的对话框显示出来，也可以调用 dismissDialog(int id)方法将 ID 标识的对话框从用户界面中关闭掉。<br>当 Activity 调用了 showDialog(ID)方法，对应 ID 的对话框没有被创建时，Android 系统会回调 OnCreateDialog(ID) 方法来创建具有该 ID 的对话框。<br>在 Activity 中创建的对话框都会被 Activity 保存，下次 showDialog(ID) 方法被调用时，若该 ID 的对话框已经被创建，则系统不会再次调用 OnCreateDialog(ID) 方法创建该对话框，而是会回调 onPrepareDialog(int id, Dialog dialog) 方法，该方法允许对话框在被显示之前做一些修改。<br>常用的对话框有 AlertDialog 和 ProgressDialog</p>
+<ol>
+<li>AlertDialog</li>
+<li>ProgressDialog<br>ProgressDialog 是一个带有进度条的对话框，当应用程序在完成比较耗时的工作时，使用该对话框可以为用户提供一个总进度上的提示。<br><strong><em>Android多窗口模式（分屏模式）</em></strong><br>Android N 支持多窗口模式，或者叫分屏模式，即在屏幕上可以同时显示多个窗口。<br><strong><em>Android事件监听器和回调方法</em></strong><br>事件监听器<br>1) OnClickListener 接口<br>2) OnLongClickListener 接口<br>此接口处理的是长按事件，当长时间按住某个 View 组件时触发该事件。<br>3) OnFocusChangeListener 接口<br>4) OnKeyListener 接口<br>5) OnTouchListener 接口<br>6) OnCreateContextMenuListener 接口<br>回调事件响应<br>在 Android 框架中，除了可以使用监听器进行事件处理之外，还可以通过回调机制进行事件处理。<br>界面事件响应实例</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/安卓/" rel="tag"># 安卓</a>
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/26/安卓学习笔记2/" rel="next" title="安卓学习笔记2">
+                <i class="fa fa-chevron-left"></i> 安卓学习笔记2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/p.jpg" alt="Fland.Ho">
+            
+              <p class="site-author-name" itemprop="name">Fland.Ho</p>
+              <div class="site-description motion-element" itemprop="description">target.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">80</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">119</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fland.Ho</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+  
+
+<script src="https://cdn.bootcdn.net/ajax/libs/valine/1.4.14/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'PhTCuXxsfqCoCIbUKpm7y7vt-gzGzoHsz',
+    appKey: '4hCT0uFrIacWy45eyFVEykyo',
+    placeholder: '敬请留言……',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

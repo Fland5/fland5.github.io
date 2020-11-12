@@ -112,9 +112,9 @@
 <meta property="og:image" content="http://www.fland5.com/images/asynchronousIO.png">
 <meta property="og:image" content="http://www.fland5.com/images/IOModelCompare.png">
 <meta property="og:image" content="http://www.fland5.com/images/perforkWorkModel.png">
-<meta property="og:image" content="http://www.fland5.com/images/wokerWorkModel.pngpr">
+<meta property="og:image" content="http://www.fland5.com/images/wokerWorkModel.png">
 <meta property="og:image" content="http://www.fland5.com/images/eventWorkModel.png">
-<meta property="og:updated_time" content="2020-11-12T07:38:13.231Z">
+<meta property="og:updated_time" content="2020-11-12T07:43:14.156Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="五种IO模型与Web三种工作模式">
 <meta name="twitter:description" content="相关概念内核空间与用户空间现在操作系统都是采用虚拟存储器，那么对32位操作系统而言，它的寻址空间（虚拟存储空间）为4G（2的32次方）。操作系统的核心是内核，独立于普通的应用程序，可以访问受保护的内存空间，也有访问底层硬件设备的所有权限。为了保证用户进程不能直接操作内核（kernel），保证内核的安全，操作系统将虚拟空间划分为两部分，一部分为内核空间，一部分为用户空间。针对linux操作系统而言，">
@@ -406,7 +406,7 @@
                 
               
 
-              <time title="创建时间：2020-11-12 15:18:25 / 修改时间：15:38:13" itemprop="dateCreated datePublished" datetime="2020-11-12T15:18:25+08:00">2020-11-12</time>
+              <time title="创建时间：2020-11-12 15:18:25 / 修改时间：15:43:14" itemprop="dateCreated datePublished" datetime="2020-11-12T15:18:25+08:00">2020-11-12</time>
             
 
             
@@ -516,7 +516,7 @@
 <p><strong><em>Web三种工作模式</em></strong></p>
 <ol>
 <li>Prefork<br><img src="/images/perforkWorkModel.png" alt><br> 主进程生成多个工作进程，由工作进程一对一的去响应客户端的请求。</li>
-<li>Worker<br><img src="/images/wokerWorkModel.pngpr" alt><br> 主进程生成多个工作进程，每个工作进程生成一个多个线程，每个线程去响应客户端的请求。</li>
+<li>Worker<br><img src="/images/wokerWorkModel.png" alt><br> 主进程生成多个工作进程，每个工作进程生成一个多个线程，每个线程去响应客户端的请求。</li>
 <li>Event<br><img src="/images/eventWorkModel.png" alt><br>主进程生成多个工作进程，每个工程进程响应多个客户端的请求，当接收到客户端的I/O操作请求后，把I/O操作交给内核执行，进程去响应其他客户端的请求，此进程最后接到内核的通知，然后通过此进程回复客户端的请求结果，通过事件回调函数。</li>
 </ol>
 

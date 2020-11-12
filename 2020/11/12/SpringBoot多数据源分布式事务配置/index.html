@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN,en,default">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon48.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/favicon48.png?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="先回顾下几个概念  什么是事务？简单讲事务就是一组不可再分割的工作逻辑单元，具有ACID四个特性。 什么是分布式事务？百度百科的解释：分布式事务是指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。 什么是XA？XA是一个规范或是一个事务的协议.XA协议由Tuxedo首先提出的，并交给X/Open组织，作为资源管理器（数据库）与事务管理器的接口标准.">
+<meta name="keywords" content="分布式,多数据源,事务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot多数据源分布式事务配置">
+<meta property="og:url" content="http://www.fland5.com/2020/11/12/SpringBoot多数据源分布式事务配置/index.html">
+<meta property="og:site_name" content="Fland&#39;s blog">
+<meta property="og:description" content="先回顾下几个概念  什么是事务？简单讲事务就是一组不可再分割的工作逻辑单元，具有ACID四个特性。 什么是分布式事务？百度百科的解释：分布式事务是指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。 什么是XA？XA是一个规范或是一个事务的协议.XA协议由Tuxedo首先提出的，并交给X/Open组织，作为资源管理器（数据库）与事务管理器的接口标准.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-12T10:57:55.799Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot多数据源分布式事务配置">
+<meta name="twitter:description" content="先回顾下几个概念  什么是事务？简单讲事务就是一组不可再分割的工作逻辑单元，具有ACID四个特性。 什么是分布式事务？百度百科的解释：分布式事务是指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。 什么是XA？XA是一个规范或是一个事务的协议.XA协议由Tuxedo首先提出的，并交给X/Open组织，作为资源管理器（数据库）与事务管理器的接口标准.">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://www.fland5.com/2020/11/12/SpringBoot多数据源分布式事务配置/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SpringBoot多数据源分布式事务配置 | Fland's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fland's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">welcome</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+
+  
+
+  <a href="https://github.com/fland5" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.fland5.com/2020/11/12/SpringBoot多数据源分布式事务配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fland.Ho">
+      <meta itemprop="description" content="target.">
+      <meta itemprop="image" content="/images/p.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fland's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringBoot多数据源分布式事务配置
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-11-12 18:45:40 / 修改时间：18:57:55" itemprop="dateCreated datePublished" datetime="2020-11-12T18:45:40+08:00">2020-11-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2020/11/12/SpringBoot多数据源分布式事务配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/11/12/SpringBoot多数据源分布式事务配置/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2020/11/12/SpringBoot多数据源分布式事务配置/" class="leancloud_visitors" data-flag-title="SpringBoot多数据源分布式事务配置">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>先回顾下几个概念</p>
+<ol>
+<li>什么是事务？<br>简单讲事务就是一组不可再分割的工作逻辑单元，具有ACID四个特性。</li>
+<li>什么是分布式事务？<br>百度百科的解释：分布式事务是指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。</li>
+<li>什么是XA？<br>XA是一个规范或是一个事务的协议.XA协议由Tuxedo首先提出的，并交给X/Open组织，作为资源管理器（数据库）与事务管理器的接口标准.<br> XA规范定义了:<ol>
+<li>TransactionManager : 这个TransactionManager可以通过管理多个ResourceManager来管理多个Resouce,也就是管理多个数据源</li>
+<li>XAResource : 针对数据资源封装的一个接口</li>
+<li>两段式提交 : 多数据源事务提交的机制</li>
+</ol>
+</li>
+<li>什么是JTA？<br>JTA(Java Transaction API) : 是XA在Java上的实现。<ol>
+<li>TransactionManager : 常用方法,可以开启,回滚,获取事务. begin(),rollback()…</li>
+<li>XAResouce : 资源管理,通过Session来进行事务管理,commit(xid)…</li>
+<li>XID : 每一个事务都分配一个特定的XID</li>
+</ol>
+</li>
+<li>JTA是如何实现多数据源的事务管理呢?<br>主要的原理是两阶段提交,当整个业务完成了之后只是第一阶段提交,在第二阶段提交之前会检查其他所有事务是否已经提交,如果前面出现了错误或是没有提交,那么第二阶段就不会提交,而是直接rollback操作,这样所有的事务都会做Rollback操作.</li>
+</ol>
+<p>　　言归正传，事务的重要性，自是不言而喻，较之单数据源，多数据源下的事务处理又更为复杂一些，现利用JTA的解决方案，在SpringBoot框架基础之上，将多数据源分布式事务配置详细过程记录如下。</p>
+<ol>
+<li><p>添加依赖<br>本人springboot版本为2.1.0。<br>pom中添加atomikos依赖包。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- jta-atomikos 分布式事务管理 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-jta-atomikos&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>application.yml配置<br>本人有两个数据源，命名为master的MySQL数据源，命名为slave的Oracle数据源。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    druid:</span><br><span class="line">      master:</span><br><span class="line">        type: com.alibaba.druid.pool.DruidDataSource</span><br><span class="line">        driverClassName: com.mysql.cj.jdbc.Driver</span><br><span class="line">        url: jdbc:mysql://x.x.x.x:3306/master</span><br><span class="line">        username: root</span><br><span class="line">        password: root</span><br><span class="line">        # 下面为连接池的补充设置，应用到上面所有数据源中</span><br><span class="line">        initialSize: 5</span><br><span class="line">        maxActive: 20</span><br><span class="line">        minIdle: 5</span><br><span class="line">        # 配置获取连接等待超时的时间</span><br><span class="line">        maxWait: 60000</span><br><span class="line">        timeBetweenEvictionRunsMillis: 60000</span><br><span class="line">        minEvictableIdleTimeMillis: 300000</span><br><span class="line">        # 打开PSCache，并且指定每个连接上PSCache的大小</span><br><span class="line">        poolPreparedStatements: true</span><br><span class="line">        maxPoolPreparedStatementPerConnectionSize: 20</span><br><span class="line">        #spring.datasource.druid.max-open-prepared-statements= #和上面的等价</span><br><span class="line">        validationQuery: select 1 from dual</span><br><span class="line">        validationQueryTimeout: 30000</span><br><span class="line">        testOnBorrow: false</span><br><span class="line">        testOnReturn: false</span><br><span class="line">        testWhileIdle: true</span><br><span class="line">      slave:</span><br><span class="line">        type: com.alibaba.druid.pool.DruidDataSource</span><br><span class="line">        driverClassName: oracle.jdbc.OracleDriver</span><br><span class="line">        url: jdbc:oracle:thin:@x.x.x.x:1521/orac</span><br><span class="line">        username: root</span><br><span class="line">        password: root</span><br><span class="line">        # 下面为连接池的补充设置，应用到上面所有数据源中</span><br><span class="line">        initialSize: 5</span><br><span class="line">        maxActive: 20</span><br><span class="line">        minIdle: 5</span><br><span class="line">        # 配置获取连接等待超时的时间</span><br><span class="line">        maxWait: 60000</span><br><span class="line">        timeBetweenEvictionRunsMillis: 60000</span><br><span class="line">        minEvictableIdleTimeMillis: 300000</span><br><span class="line">        # 打开PSCache，并且指定每个连接上PSCache的大小</span><br><span class="line">        poolPreparedStatements: true</span><br><span class="line">        maxPoolPreparedStatementPerConnectionSize: 20</span><br><span class="line">        #spring.datasource.druid.max-open-prepared-statements= #和上面的等价</span><br><span class="line">        validationQuery: select 1 from dual</span><br><span class="line">        validationQueryTimeout: 30000</span><br><span class="line">        testOnBorrow: false</span><br><span class="line">        testOnReturn: false</span><br><span class="line">        testWhileIdle: true</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MasterDataSourceProperties。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import lombok.Data;</span><br><span class="line">import org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">@Data</span><br><span class="line">@Component</span><br><span class="line">@ConfigurationProperties(prefix = &quot;spring.datasource.druid.master&quot;)</span><br><span class="line">public class MasterDataSourceProperties &#123;</span><br><span class="line">    private String type;</span><br><span class="line">    private String driverClassName;</span><br><span class="line">    private String url;</span><br><span class="line">    private String username;</span><br><span class="line">    private String password;</span><br><span class="line">    private Integer initialSize;</span><br><span class="line">    private Integer maxActive;</span><br><span class="line">    private Integer minIdle;</span><br><span class="line">    private Integer maxWait;</span><br><span class="line">    private Integer timeBetweenEvictionRunsMillis;</span><br><span class="line">    private Integer minEvictableIdleTimeMillis;</span><br><span class="line">    private String poolPreparedStatements;</span><br><span class="line">    private String maxPoolPreparedStatementPerConnectionSize;</span><br><span class="line">    private String validationQuery;</span><br><span class="line">    private Integer validationQueryTimeout;</span><br><span class="line">    private String testOnBorrow;</span><br><span class="line">    private String testOnReturn;</span><br><span class="line">    private Boolean testWhileIdle;</span><br><span class="line">    private String filters;</span><br><span class="line">    private String connectionProperties;</span><br><span class="line">    private String initConnectionSqls;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MasterDataSourceConfiguration</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">import com.github.pagehelper.PageInterceptor;</span><br><span class="line">import com.mysql.cj.jdbc.MysqlXADataSource;</span><br><span class="line">import org.apache.ibatis.plugin.Interceptor;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.mybatis.spring.SqlSessionFactoryBean;</span><br><span class="line">import org.mybatis.spring.SqlSessionTemplate;</span><br><span class="line">import org.mybatis.spring.annotation.MapperScan;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line">import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.context.annotation.Primary;</span><br><span class="line">import org.springframework.core.io.support.PathMatchingResourcePatternResolver;</span><br><span class="line"></span><br><span class="line">import javax.sql.DataSource;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">@MapperScan(basePackages = &quot;com.fland.test.dao.master&quot;, sqlSessionTemplateRef = &quot;masterSessionTemplate&quot;)</span><br><span class="line">public class MasterDataSourceConfiguration &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private MasterDataSourceProperties masterDataSourceProperties;</span><br><span class="line"></span><br><span class="line">    @Primary</span><br><span class="line">    @Bean(name = &quot;masterDataSource&quot;)</span><br><span class="line">    public DataSource masterDataSource() &#123;</span><br><span class="line">        MysqlXADataSource mysqlXaDataSource = new MysqlXADataSource();</span><br><span class="line">        mysqlXaDataSource.setUrl(masterDataSourceProperties.getUrl());</span><br><span class="line">        mysqlXaDataSource.setPassword(masterDataSourceProperties.getPassword());</span><br><span class="line">        mysqlXaDataSource.setUser(masterDataSourceProperties.getUsername());</span><br><span class="line"></span><br><span class="line">        AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();</span><br><span class="line">        xaDataSource.setXaDataSource(mysqlXaDataSource);</span><br><span class="line">        xaDataSource.setUniqueResourceName(&quot;masterDataSource&quot;);</span><br><span class="line">        xaDataSource.setPoolSize(masterDataSourceProperties.getInitialSize());</span><br><span class="line">        xaDataSource.setMinPoolSize(masterDataSourceProperties.getMinIdle());</span><br><span class="line">        xaDataSource.setMaxPoolSize(masterDataSourceProperties.getMaxActive());</span><br><span class="line">        xaDataSource.setMaxIdleTime(masterDataSourceProperties.getMinIdle());</span><br><span class="line">        xaDataSource.setMaxLifetime(masterDataSourceProperties.getMinEvictableIdleTimeMillis());</span><br><span class="line">        xaDataSource.setConcurrentConnectionValidation(masterDataSourceProperties.getTestWhileIdle());</span><br><span class="line">        xaDataSource.setTestQuery(masterDataSourceProperties.getValidationQuery());</span><br><span class="line"></span><br><span class="line">        return xaDataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Primary</span><br><span class="line">    @Bean(name = &quot;masterSqlSessionFactory&quot;)</span><br><span class="line">    public SqlSessionFactory masterSqlSessionFactory(@Qualifier(&quot;masterDataSource&quot;) DataSource dataSource) throws Exception &#123;</span><br><span class="line">        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();</span><br><span class="line">        bean.setDataSource(dataSource);</span><br><span class="line">        bean.setTypeAliasesPackage(&quot;com.fland.test.entity&quot;);</span><br><span class="line">        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(&quot;classpath:mappings/master/*.xml&quot;));</span><br><span class="line">        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();</span><br><span class="line">        configuration.setMapUnderscoreToCamelCase(true);</span><br><span class="line">        bean.setConfiguration(configuration);</span><br><span class="line"></span><br><span class="line">        //分页插件</span><br><span class="line">        Interceptor interceptor = new PageInterceptor();</span><br><span class="line">        Properties properties = new Properties();</span><br><span class="line">        //数据库</span><br><span class="line">        properties.setProperty(&quot;helperDialect&quot;, &quot;mysql&quot;);</span><br><span class="line">        //是否将参数offset作为PageNum使用</span><br><span class="line">        properties.setProperty(&quot;offsetAsPageNum&quot;, &quot;true&quot;);</span><br><span class="line">        //是否进行count查询</span><br><span class="line">        properties.setProperty(&quot;rowBoundsWithCount&quot;, &quot;true&quot;);</span><br><span class="line">        //是否分页合理化</span><br><span class="line">        properties.setProperty(&quot;reasonable&quot;, &quot;false&quot;);</span><br><span class="line">        interceptor.setProperties(properties);</span><br><span class="line">        bean.setPlugins(new Interceptor[]&#123;interceptor&#125;);</span><br><span class="line"></span><br><span class="line">        return bean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Primary</span><br><span class="line">    @Bean(name = &quot;masterSessionTemplate&quot;)</span><br><span class="line">    public SqlSessionTemplate sqlSessionTemplate(@Qualifier(&quot;masterSqlSessionFactory&quot;) SqlSessionFactory sqlSessionFactory)</span><br><span class="line">            throws Exception &#123;</span><br><span class="line">        return new SqlSessionTemplate(sqlSessionFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SlaveDataSourceProperties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import lombok.Data;</span><br><span class="line">import org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">@Data</span><br><span class="line">@Component</span><br><span class="line">@ConfigurationProperties(prefix = &quot;spring.datasource.druid.slave&quot;)</span><br><span class="line">public class SlaveDataSourceProperties &#123;</span><br><span class="line">    private String type;</span><br><span class="line">    private String driverClassName;</span><br><span class="line">    private String url;</span><br><span class="line">    private String username;</span><br><span class="line">    private String password;</span><br><span class="line">    private Integer initialSize;</span><br><span class="line">    private Integer maxActive;</span><br><span class="line">    private Integer minIdle;</span><br><span class="line">    private Integer maxWait;</span><br><span class="line">    private Integer timeBetweenEvictionRunsMillis;</span><br><span class="line">    private Integer minEvictableIdleTimeMillis;</span><br><span class="line">    private String poolPreparedStatements;</span><br><span class="line">    private String maxPoolPreparedStatementPerConnectionSize;</span><br><span class="line">    private String validationQuery;</span><br><span class="line">    private Integer validationQueryTimeout;</span><br><span class="line">    private String testOnBorrow;</span><br><span class="line">    private String testOnReturn;</span><br><span class="line">    private Boolean testWhileIdle;</span><br><span class="line">    private String filters;</span><br><span class="line">    private String connectionProperties;</span><br><span class="line">    private String initConnectionSqls;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SlaveDataSourceConfiguration</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">import com.github.pagehelper.PageInterceptor;</span><br><span class="line">import oracle.jdbc.xa.client.OracleXADataSource;</span><br><span class="line">import org.apache.ibatis.plugin.Interceptor;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.mybatis.spring.SqlSessionFactoryBean;</span><br><span class="line">import org.mybatis.spring.SqlSessionTemplate;</span><br><span class="line">import org.mybatis.spring.annotation.MapperScan;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line">import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.context.annotation.Primary;</span><br><span class="line">import org.springframework.core.io.support.PathMatchingResourcePatternResolver;</span><br><span class="line"></span><br><span class="line">import javax.sql.DataSource;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">@MapperScan(basePackages = &quot;com.fland.test.dao.slave&quot;, sqlSessionTemplateRef = &quot;slaveSqlSessionTemplate&quot;)</span><br><span class="line">public class SlaveDataSourceConfiguration &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private SlaveDataSourceProperties slaveDataSourceProperties;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;slaveDataSource&quot;)</span><br><span class="line">    public DataSource slaveDataSource() throws SQLException &#123;</span><br><span class="line">        OracleXADataSource oracleXADataSource = new OracleXADataSource();</span><br><span class="line">        oracleXADataSource.setURL(slaveDataSourceProperties.getUrl());</span><br><span class="line">        oracleXADataSource.setPassword(slaveDataSourceProperties.getPassword());</span><br><span class="line">        oracleXADataSource.setUser(slaveDataSourceProperties.getUsername());</span><br><span class="line"></span><br><span class="line">        AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();</span><br><span class="line">        xaDataSource.setXaDataSource(oracleXADataSource);</span><br><span class="line">        xaDataSource.setUniqueResourceName(&quot;slaveDataSource&quot;);</span><br><span class="line">        xaDataSource.setPoolSize(slaveDataSourceProperties.getInitialSize());</span><br><span class="line">        xaDataSource.setMinPoolSize(slaveDataSourceProperties.getMinIdle());</span><br><span class="line">        xaDataSource.setMaxPoolSize(slaveDataSourceProperties.getMaxActive());</span><br><span class="line">        xaDataSource.setMaxIdleTime(slaveDataSourceProperties.getMinIdle());</span><br><span class="line">        xaDataSource.setMaxLifetime(slaveDataSourceProperties.getMinEvictableIdleTimeMillis());</span><br><span class="line">        xaDataSource.setConcurrentConnectionValidation(slaveDataSourceProperties.getTestWhileIdle());</span><br><span class="line">        xaDataSource.setTestQuery(slaveDataSourceProperties.getValidationQuery());</span><br><span class="line"></span><br><span class="line">        return xaDataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;slaveSqlSessionFactory&quot;)</span><br><span class="line">    public SqlSessionFactory slaveSqlSessionFactory(@Qualifier(&quot;slaveDataSource&quot;) DataSource dataSource) throws Exception &#123;</span><br><span class="line">        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();</span><br><span class="line">        bean.setDataSource(dataSource);</span><br><span class="line">        bean.setTypeAliasesPackage(&quot;com.fland.test.entity&quot;);</span><br><span class="line">        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(&quot;classpath:mappings/slave/*.xml&quot;));</span><br><span class="line">        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();</span><br><span class="line">        configuration.setMapUnderscoreToCamelCase(true);</span><br><span class="line">        bean.setConfiguration(configuration);</span><br><span class="line"></span><br><span class="line">        //分页插件</span><br><span class="line">        Interceptor interceptor = new PageInterceptor();</span><br><span class="line">        Properties properties = new Properties();</span><br><span class="line">        //数据库</span><br><span class="line">        properties.setProperty(&quot;helperDialect&quot;, &quot;oracle&quot;);</span><br><span class="line">        //是否将参数offset作为PageNum使用</span><br><span class="line">        properties.setProperty(&quot;offsetAsPageNum&quot;, &quot;true&quot;);</span><br><span class="line">        //是否进行count查询</span><br><span class="line">        properties.setProperty(&quot;rowBoundsWithCount&quot;, &quot;true&quot;);</span><br><span class="line">        //是否分页合理化</span><br><span class="line">        properties.setProperty(&quot;reasonable&quot;, &quot;false&quot;);</span><br><span class="line">        interceptor.setProperties(properties);</span><br><span class="line">        bean.setPlugins(new Interceptor[]&#123;interceptor&#125;);</span><br><span class="line"></span><br><span class="line">        return bean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;slaveSqlSessionTemplate&quot;)</span><br><span class="line">    @Primary</span><br><span class="line">    public SqlSessionTemplate sqlSessionTemplate(@Qualifier(&quot;slaveSqlSessionFactory&quot;) SqlSessionFactory sqlSessionFactory)</span><br><span class="line">            throws Exception &#123;</span><br><span class="line">        return new SqlSessionTemplate(sqlSessionFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>TransactionManagerConfig</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import com.atomikos.icatch.jta.UserTransactionImp;</span><br><span class="line">import com.atomikos.icatch.jta.UserTransactionManager;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.context.annotation.DependsOn;</span><br><span class="line">import org.springframework.transaction.PlatformTransactionManager;</span><br><span class="line">import org.springframework.transaction.annotation.EnableTransactionManagement;</span><br><span class="line">import org.springframework.transaction.jta.JtaTransactionManager;</span><br><span class="line"></span><br><span class="line">import javax.transaction.TransactionManager;</span><br><span class="line">import javax.transaction.UserTransaction;</span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">@EnableTransactionManagement</span><br><span class="line">public class TransactionManagerConfig &#123;</span><br><span class="line">    @Bean(name = &quot;userTransaction&quot;)</span><br><span class="line">    public UserTransaction userTransaction() throws Throwable &#123;</span><br><span class="line">        UserTransactionImp userTransactionImp = new UserTransactionImp();</span><br><span class="line">        userTransactionImp.setTransactionTimeout(10000);</span><br><span class="line">        return userTransactionImp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;atomikosTransactionManager&quot;)</span><br><span class="line">    public TransactionManager atomikosTransactionManager() throws Throwable &#123;</span><br><span class="line">        UserTransactionManager userTransactionManager = new UserTransactionManager();</span><br><span class="line">        userTransactionManager.setForceShutdown(false);</span><br><span class="line">        return userTransactionManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;transactionManager&quot;)</span><br><span class="line">    @DependsOn(&#123;&quot;userTransaction&quot;, &quot;atomikosTransactionManager&quot;&#125;)</span><br><span class="line">    public PlatformTransactionManager transactionManager() throws Throwable &#123;</span><br><span class="line">        return new JtaTransactionManager(userTransaction(), atomikosTransactionManager());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>应用与测试<br>应用的话比较简单，使用<br><code>@Transactional</code><br>这个注解即可。<br>测试案例这里就不贴了，大家可以在不同数据源建表写个业务尝试一下，当然啦，亲测是成功的！</p>
+</li>
+</ol>
+<p>实际应用中遇到的问题还是比较多，碰到比较典型的，我会再抽时间更上来的，大家如果有什么疑问也可以在下方留言，很高兴同各位探讨交流。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分布式/" rel="tag"># 分布式</a>
+          
+            <a href="/tags/多数据源/" rel="tag"># 多数据源</a>
+          
+            <a href="/tags/事务/" rel="tag"># 事务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/12/五种IO模型与Web三种工作模式/" rel="next" title="五种IO模型与Web三种工作模式">
+                <i class="fa fa-chevron-left"></i> 五种IO模型与Web三种工作模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/p.jpg" alt="Fland.Ho">
+            
+              <p class="site-author-name" itemprop="name">Fland.Ho</p>
+              <div class="site-description motion-element" itemprop="description">target.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">87</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">124</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fland.Ho</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+  
+
+<script src="https://cdn.bootcdn.net/ajax/libs/valine/1.4.14/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'PhTCuXxsfqCoCIbUKpm7y7vt-gzGzoHsz',
+    appKey: '4hCT0uFrIacWy45eyFVEykyo',
+    placeholder: '敬请留言……',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
